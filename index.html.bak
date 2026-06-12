@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><link rel="manifest" href="manifest.json"><script>if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js")</script><link rel="manifest" href="manifest.json"><script>if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js")</script><link rel="manifest" href="manifest.json"><script>if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js")</script><link rel="manifest" href="manifest.json"><script>if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js")</script><link rel="manifest" href="manifest.json"><script>if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js")</script><link rel="manifest" href="manifest.json"><script>if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js")</script>
+<head><script>if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js")</script><link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Strength Checker - Secure Password Analyzer</title>
@@ -129,7 +129,7 @@
             font-weight: 700;
             color: #1f2937;
         }
-        
+
         /* Generator Section Styles */
         .generator-section {
             margin-top: 30px;
@@ -348,7 +348,211 @@
                 order: -1;
             }
         }
-    </style>
+
+/* ========== PASSWORD HISTORY FEATURE ========== */
+#password-history-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #e5e7eb;
+}
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.history-title {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #374151;
+}
+.history-count {
+    font-size: 0.85em;
+    color: #6b7280;
+}
+.history-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+.history-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    background: #f9fafb;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: all 0.2s;
+}
+.history-item:hover {
+    background: #f3f4f6;
+    transform: translateX(4px);
+}
+.history-password {
+    font-family: monospace;
+    font-size: 0.9em;
+    color: #374151;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 10px;
+}
+.history-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8em;
+}
+.history-strength {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+.history-strength.weak { background: #fee2e2; color: #dc2626; }
+.history-strength.fair { background: #fef3c7; color: #d97706; }
+.history-strength.good { background: #dbeafe; color: #2563eb; }
+.history-strength.strong { background: #d1fae5; color: #059669; }
+.history-date {
+    color: #9ca3af;
+}
+.history-actions {
+    display: flex;
+    gap: 5px;
+}
+.history-btn {
+    background: #e5e7eb;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: all 0.2s;
+}
+.history-btn:hover {
+    background: #d1d5db;
+}
+.history-btn.clear {
+    background: #fee2e2;
+    color: #dc2626;
+}
+.history-btn.clear:hover {
+    background: #fecaca;
+}
+.history-empty {
+    text-align: center;
+    padding: 30px;
+    color: #9ca3af;
+}
+.history-empty-icon {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+/* Toast Notifications */
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+.toast {
+    background: #1f2937;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    animation: slideUp 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+@keyframes slideUp {
+    from { opacity: 0; transform: translate(-50%, 20px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* Enhanced Dark Mode */
+body.dark-mode {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+}
+body.dark-mode .main-card {
+    background: #1f2937;
+}
+body.dark-mode .card-title {
+    color: #f3f4f6;
+}
+body.dark-mode input[type="password"],
+body.dark-mode input[type="text"] {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f3f4f6;
+}
+body.dark-mode .criteria li {
+    border-bottom-color: #374151;
+}
+body.dark-mode .time-to-crack {
+    background: #374151;
+}
+body.dark-mode .time-to-crack h3 {
+    color: #9ca3af;
+}
+body.dark-mode .time-to-crack .crack-time {
+    color: #f3f4f6;
+}
+body.dark-mode .option-item {
+    background: #374151;
+}
+body.dark-mode .option-item:hover {
+    background: #4b5563;
+}
+body.dark-mode .option-item label {
+    color: #e5e7eb;
+}
+body.dark-mode .length-slider-container {
+    background: #374151;
+}
+body.dark-mode .length-label {
+    color: #e5e7eb;
+}
+body.dark-mode .history-item {
+    background: #374151;
+}
+body.dark-mode .history-item:hover {
+    background: #4b5563;
+}
+body.dark-mode .history-password {
+    color: #e5e7eb;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+body.dark-mode .theme-toggle {
+    background: #374151;
+}
+</style>
 </head>
 <body>
     <div class="container">
@@ -356,20 +560,20 @@
             <h1>🔐 Password Strength Checker</h1>
             <p>Analyze your password security in real-time</p>
         </header>
-        
+
         <div class="main-card">
             <div class="card-title">🔍 Password Analyzer</div>
             <div class="input-group">
                 <input type="password" id="passwordInput" placeholder="Enter your password..." oninput="checkStrength()">
                 <button class="toggle-visibility" onclick="toggleVisibility()">👁️</button>
             </div>
-            
+
             <div class="strength-meter">
                 <div id="strengthFill" class="strength-fill"></div>
             </div>
-            
+
             <div id="strengthText" class="strength-text" style="color: #9ca3af;">Enter a password</div>
-            
+
             <ul class="criteria">
                 <li>
                     <span id="lengthCheck" class="check-icon check-pending">○</span>
@@ -392,16 +596,16 @@
                     <span>Special character (!@#$%^...)</span>
                 </li>
             </ul>
-            
+
             <div class="time-to-crack">
                 <h3>⏱️ Estimated time to crack</h3>
                 <div id="crackTime" class="crack-time">-</div>
             </div>
-            
+
             <!-- Password Generator Section -->
             <div class="generator-section">
                 <div class="card-title">🎲 Password Generator</div>
-                
+
                 <div class="options-grid">
                     <div class="length-slider-container">
                         <div class="length-header">
@@ -410,67 +614,67 @@
                         </div>
                         <input type="range" id="lengthSlider" class="length-slider" min="8" max="64" value="16" oninput="updateLengthDisplay()">
                     </div>
-                    
+
                     <div class="option-item">
                         <input type="checkbox" id="includeUppercase" checked>
                         <label for="includeUppercase">Uppercase (A-Z)</label>
                     </div>
-                    
+
                     <div class="option-item">
                         <input type="checkbox" id="includeLowercase" checked>
                         <label for="includeLowercase">Lowercase (a-z)</label>
                     </div>
-                    
+
                     <div class="option-item">
                         <input type="checkbox" id="includeNumbers" checked>
                         <label for="includeNumbers">Numbers (0-9)</label>
                     </div>
-                    
+
                     <div class="option-item">
                         <input type="checkbox" id="includeSymbols" checked>
                         <label for="includeSymbols">Symbols (!@#$...)</label>
                     </div>
                 </div>
-                
+
                 <button class="generate-btn" onclick="generatePasswords()">
                     <span>🎲</span>
                     <span>Generate Passwords</span>
                 </button>
-                
+
                 <div id="generatedPasswords" class="generated-passwords"></div>
             </div>
         </div>
-        
+
         <footer>
             <p>Made with 💡 by <a href="https://github.com/Agent-Lumi">Lumi</a> for @shalkith</p>
         </footer>
     </div>
-    
+
     <div id="toast" class="toast">Copied to clipboard!</div>
-    
+
     <script>
         function toggleVisibility() {
             const input = document.getElementById('passwordInput');
             input.type = input.type === 'password' ? 'text' : 'password';
         }
-        
+
         function checkStrength() {
             const password = document.getElementById('passwordInput').value;
             const fill = document.getElementById('strengthFill');
             const text = document.getElementById('strengthText');
-            
+
             const hasLength = password.length >= 8;
             const hasUpper = /[A-Z]/.test(password);
             const hasLower = /[a-z]/.test(password);
             const hasNumber = /[0-9]/.test(password);
             const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>?]/.test(password);
-            
+
             updateCriterion('lengthCheck', hasLength);
             updateCriterion('upperCheck', hasUpper);
             updateCriterion('lowerCheck', hasLower);
             updateCriterion('numberCheck', hasNumber);
             updateCriterion('specialCheck', hasSpecial);
-            
+
             let score = 0;
             if (hasLength) score++;
             if (hasUpper) score++;
@@ -479,7 +683,7 @@
             if (hasSpecial) score++;
             if (password.length >= 12) score++;
             if (password.length >= 16) score++;
-            
+
             fill.className = 'strength-fill';
             if (password.length === 0) {
                 text.textContent = 'Enter a password';
@@ -501,10 +705,10 @@
                 text.textContent = '🟢 Strong';
                 text.style.color = '#10b981';
             }
-            
+
             calculateCrackTime(password);
         }
-        
+
         function updateCriterion(id, passed) {
             const el = document.getElementById(id);
             if (passed) {
@@ -515,25 +719,25 @@
                 el.textContent = '○';
             }
         }
-        
+
         function calculateCrackTime(password) {
             const crackTimeEl = document.getElementById('crackTime');
-            
+
             if (password.length === 0) {
                 crackTimeEl.textContent = '-';
                 return;
             }
-            
+
             let charset = 0;
             if (/[a-z]/.test(password)) charset += 26;
             if (/[A-Z]/.test(password)) charset += 26;
             if (/[0-9]/.test(password)) charset += 10;
             if (/[^a-zA-Z0-9]/.test(password)) charset += 32;
-            
+
             const combinations = Math.pow(charset, password.length);
             const guessesPerSecond = 10000000000;
             const seconds = combinations / guessesPerSecond;
-            
+
             let timeText;
             if (seconds < 1) {
                 timeText = 'Instantly';
@@ -550,43 +754,43 @@
             } else {
                 timeText = 'Centuries';
             }
-            
+
             crackTimeEl.textContent = timeText;
         }
-        
+
         function updateLengthDisplay() {
             const slider = document.getElementById('lengthSlider');
             const display = document.getElementById('lengthValue');
             display.textContent = slider.value;
         }
-        
+
         function generatePasswords() {
             const length = parseInt(document.getElementById('lengthSlider').value);
             const includeUpper = document.getElementById('includeUppercase').checked;
             const includeLower = document.getElementById('includeLowercase').checked;
             const includeNumbers = document.getElementById('includeNumbers').checked;
             const includeSymbols = document.getElementById('includeSymbols').checked;
-            
+
             // Validate at least one option is selected
             if (!includeUpper && !includeLower && !includeNumbers && !includeSymbols) {
                 showToast('Please select at least one character type');
                 return;
             }
-            
+
             // Generate 3 password options
             const passwords = [];
             for (let i = 0; i < 3; i++) {
                 passwords.push(generateSinglePassword(length, includeUpper, includeLower, includeNumbers, includeSymbols));
             }
-            
+
             // Display generated passwords
             displayGeneratedPasswords(passwords);
         }
-        
+
         function generateSinglePassword(length, includeUpper, includeLower, includeNumbers, includeSymbols) {
             let charset = '';
             let requiredChars = [];
-            
+
             if (includeLower) {
                 charset += 'abcdefghijklmnopqrstuvwxyz';
                 requiredChars.push('abcdefghijklmnopqrstuvwxyz'[Math.floor(Math.random() * 26)]);
@@ -604,19 +808,19 @@
                 charset += symbols;
                 requiredChars.push(symbols[Math.floor(Math.random() * symbols.length)]);
             }
-            
+
             let password = requiredChars.join('');
-            
+
             for (let i = requiredChars.length; i < length; i++) {
                 password += charset[Math.floor(Math.random() * charset.length)];
             }
-            
+
             // Shuffle the password
             password = password.split('').sort(() => Math.random() - 0.5).join('');
-            
+
             return password;
         }
-        
+
         function getPasswordStrength(password) {
             let score = 0;
             if (password.length >= 8) score++;
@@ -626,20 +830,20 @@
             if (/[a-z]/.test(password)) score++;
             if (/[0-9]/.test(password)) score++;
             if (/[^a-zA-Z0-9]/.test(password)) score++;
-            
+
             if (score <= 2) return { level: 'weak', label: 'Weak' };
             if (score <= 4) return { level: 'fair', label: 'Fair' };
             if (score <= 6) return { level: 'good', label: 'Good' };
             return { level: 'strong', label: 'Strong' };
         }
-        
+
         function displayGeneratedPasswords(passwords) {
             const container = document.getElementById('generatedPasswords');
             container.innerHTML = '';
-            
+
             passwords.forEach((password, index) => {
                 const strength = getPasswordStrength(password);
-                
+
                 const optionDiv = document.createElement('div');
                 optionDiv.className = 'password-option';
                 optionDiv.innerHTML = `
@@ -655,20 +859,20 @@
                 container.appendChild(optionDiv);
             });
         }
-        
+
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
-        
+
         function copyToClipboard(text, btn) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = btn.innerHTML;
                 btn.innerHTML = '✓ Copied!';
                 btn.classList.add('copied');
                 showToast('Copied to clipboard!');
-                
+
                 setTimeout(() => {
                     btn.innerHTML = originalText;
                     btn.classList.remove('copied');
@@ -684,1439 +888,278 @@
                 showToast('Copied to clipboard!');
             });
         }
-        
+
         function usePassword(password) {
             document.getElementById('passwordInput').value = password;
             document.getElementById('passwordInput').type = 'text';
             checkStrength();
             showToast('Password applied to checker!');
         }
-        
+
         function showToast(message) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
             toast.classList.add('show');
-            
+
             setTimeout(() => {
                 toast.classList.remove('show');
             }, 2500);
         }
     </script>
+
+<script>
+// Password History Feature
+const PASSWORD_HISTORY_KEY = 'password-history';
+const MAX_HISTORY = 10;
+
+function getPasswordHistory() {
+    const saved = localStorage.getItem(PASSWORD_HISTORY_KEY);
+    return saved ? JSON.parse(saved) : [];
+}
+
+function savePasswordToHistory(password, strength) {
+    const history = getPasswordHistory();
+    // Don't save empty passwords
+    if (!password || password.length === 0) return;
+    // Don't save duplicates of the most recent entry
+    if (history.length > 0 && history[0].password === password) return;
+
+    const entry = {
+        password: password,
+        strength: strength,
+        timestamp: new Date().toISOString(),
+        date: new Date().toLocaleDateString()
+    };
+
+    history.unshift(entry);
+    if (history.length > MAX_HISTORY) {
+        history.pop();
+    }
+
+    localStorage.setItem(PASSWORD_HISTORY_KEY, JSON.stringify(history));
+    renderPasswordHistory();
+}
+
+function deleteHistoryItem(index) {
+    const history = getPasswordHistory();
+    history.splice(index, 1);
+    localStorage.setItem(PASSWORD_HISTORY_KEY, JSON.stringify(history));
+    renderPasswordHistory();
+    showToast('🗑️ Removed from history');
+}
+
+function clearHistory() {
+    if (confirm('Clear all password history? This cannot be undone.')) {
+        localStorage.removeItem(PASSWORD_HISTORY_KEY);
+        renderPasswordHistory();
+        showToast('🗑️ History cleared');
+    }
+}
+
+function usePassword(password) {
+    const input = document.getElementById('password-input');
+    if (input) {
+        input.value = password;
+        input.type = 'text';
+        updateStrength(password);
+        showToast('📋 Password loaded');
+    }
+}
+
+function renderPasswordHistory() {
+    const history = getPasswordHistory();
+    const container = document.getElementById('password-history-list');
+    if (!container) return;
+
+    if (history.length === 0) {
+        container.innerHTML = `
+            <div class="history-empty">
+                <div class="history-empty-icon">📝</div>
+                <p>No passwords generated yet</p>
+                <p style="font-size: 0.85em; margin-top: 5px;">Generated passwords will appear here</p>
+            </div>
+        `;
+    } else {
+        container.innerHTML = history.map((item, index) => `
+            <div class="history-item">
+                <div class="history-password">${escapeHtml(maskPassword(item.password))}</div>
+                <div class="history-meta">
+                    <span class="history-strength ${item.strength}">${item.strength}</span>
+                    <span class="history-date">${item.date}</span>
+                    <div class="history-actions">
+                        <button class="history-btn" onclick="usePassword('${escapeHtml(item.password)}')" title="Use this password">📋</button>
+                        <button class="history-btn" onclick="deleteHistoryItem(${index})" title="Delete">🗑️</button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Update count
+    const countEl = document.getElementById('history-count');
+    if (countEl) {
+        countEl.textContent = `${history.length}/${MAX_HISTORY}`;
+    }
+}
+
+function maskPassword(password) {
+    if (password.length <= 4) return password;
+    return password.substring(0, 4) + '•'.repeat(Math.min(password.length - 4, 8));
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function showToast(message) {
+    let container = document.getElementById('toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translate(-50%, 20px)';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+// Theme Toggle
+const themeToggle = document.createElement('button');
+themeToggle.className = 'theme-toggle';
+themeToggle.innerHTML = '🌙';
+themeToggle.title = 'Toggle dark mode (Ctrl/Cmd + D)';
+themeToggle.onclick = () => {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    themeToggle.innerHTML = isDark ? '☀️' : '🌙';
+    localStorage.setItem('dark-theme', isDark);
+};
+document.body.appendChild(themeToggle);
+
+// Load saved theme
+if (localStorage.getItem('dark-theme') === 'true') {
+    document.body.classList.add('dark-mode');
+    themeToggle.innerHTML = '☀️';
+}
+
+// Enhanced keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+    // Ctrl/Cmd + D = Toggle dark mode
+    if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+        e.preventDefault();
+        themeToggle.click();
+    }
+    // Ctrl/Cmd + G = Generate password
+    if ((e.ctrlKey || e.metaKey) && e.key === 'g') {
+        e.preventDefault();
+        const genBtn = document.getElementById('generate-btn');
+        if (genBtn) genBtn.click();
+    }
+    // Ctrl/Cmd + C (when not in input) = Copy current password
+    if ((e.ctrlKey || e.metaKey) && e.key === 'c' && 
+        !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+        e.preventDefault();
+        const input = document.getElementById('password-input');
+        if (input && input.value) {
+            navigator.clipboard.writeText(input.value);
+            showToast('📋 Password copied!');
+        }
+    }
+    // Escape = Clear input
+    if (e.key === 'Escape') {
+        const input = document.getElementById('password-input');
+        if (input && document.activeElement === input) {
+            input.value = '';
+            updateStrength('');
+            input.blur();
+        }
+    }
+});
+
+// Override generate button click to save to history
+const originalGenerateBtn = document.getElementById('generate-btn');
+if (originalGenerateBtn) {
+    const originalOnClick = originalGenerateBtn.onclick;
+    originalGenerateBtn.onclick = function(e) {
+        // Get the current strength before generating
+        const strengthFill = document.querySelector('.strength-fill');
+        let currentStrength = 'weak';
+        if (strengthFill) {
+            if (strengthFill.classList.contains('strength-strong')) currentStrength = 'strong';
+            else if (strengthFill.classList.contains('strength-good')) currentStrength = 'good';
+            else if (strengthFill.classList.contains('strength-fair')) currentStrength = 'fair';
+        }
+
+        // Get current password before generating new one
+        const input = document.getElementById('password-input');
+        const oldPassword = input ? input.value : '';
+
+        // Call original handler
+        if (originalOnClick) originalOnClick.call(this, e);
+
+        // Save old password to history if it exists
+        if (oldPassword) {
+            savePasswordToHistory(oldPassword, currentStrength);
+        }
+
+        // Show notification
+        showToast('✨ New password generated!');
+    };
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    renderPasswordHistory();
+});
+
+// Save generated passwords to history
+const generateBtn = document.getElementById('generate-btn');
+if (generateBtn) {
+    generateBtn.addEventListener('click', function() {
+        setTimeout(() => {
+            const input = document.getElementById('password-input');
+            const strengthFill = document.querySelector('.strength-fill');
+            if (input && input.value) {
+                let strength = 'weak';
+                if (strengthFill) {
+                    if (strengthFill.classList.contains('strength-strong')) strength = 'strong';
+                    else if (strengthFill.classList.contains('strength-good')) strength = 'good';
+                    else if (strengthFill.classList.contains('strength-fair')) strength = 'fair';
+                }
+                savePasswordToHistory(input.value, strength);
+            }
+        }, 100);
+    });
+}
+</script>
+
+        <!-- Password History Section -->
+        <div id="password-history-section">
+            <div class="history-header">
+                <span class="history-title">📚 Password History</span>
+                <span id="history-count" class="history-count">0/10</span>
+            </div>
+            <div id="password-history-list" class="history-list">
+                <div class="history-empty">
+                    <div class="history-empty-icon">📝</div>
+                    <p>No passwords generated yet</p>
+                    <p style="font-size: 0.85em; margin-top: 5px;">Generated passwords will appear here</p>
+                </div>
+            </div>
+            <div style="margin-top: 15px; text-align: right;">
+                <button class="history-btn clear" onclick="clearHistory()">Clear History</button>
+            </div>
+        </div>
 </body>
 </html>
-<script>
-// Usage stats
-const stats = JSON.parse(localStorage.getItem('app-stats') || '{}');
-stats.visits = (stats.visits || 0) + 1;
-stats.lastVisit = new Date().toISOString();
-localStorage.setItem('app-stats', JSON.stringify(stats));
-console.log('Visits:', stats.visits);
-</script>
-<script>
-// Auto-save to localStorage
-const saveKey = 'app-data-' + location.pathname;
-const saveData = () => {
-    const data = { timestamp: Date.now(), inputs: {} };
-    document.querySelectorAll('input, textarea').forEach(el => {
-        data.inputs[el.id || el.name] = el.value;
-    });
-    localStorage.setItem(saveKey, JSON.stringify(data));
-};
-const loadData = () => {
-    const saved = localStorage.getItem(saveKey);
-    if (saved) {
-        const data = JSON.parse(saved);
-        Object.entries(data.inputs).forEach(([key, value]) => {
-            const el = document.getElementById(key) || document.querySelector('[name="' + key + '"]');
-            if (el) el.value = value;
-        });
-    }
-};
-document.addEventListener('input', saveData);
-document.addEventListener('DOMContentLoaded', loadData);
-</script>
-<script>
-// Templates gallery
-const templates = [
-    { name: 'Default', apply: () => {} },
-    { name: 'Minimal', apply: () => document.body.style.fontFamily = 'system-ui, sans-serif' }
-];
-const templateSelect = document.createElement('select');
-templates.forEach(t => {
-    const opt = document.createElement('option');
-    opt.value = t.name;
-    opt.textContent = t.name;
-    templateSelect.appendChild(opt);
-});
-templateSelect.onchange = (e) => {
-    const template = templates.find(t => t.name === e.target.value);
-    if (template) template.apply();
-};
-document.querySelector('.container')?.appendChild(templateSelect);
-</script>
-<script>
-// Undo/Redo history
-const history = { past: [], future: [] };
-const saveState = () => {
-    const state = document.querySelector('textarea, input')?.value;
-    if (state) history.past.push(state);
-};
-document.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
-        e.preventDefault();
-        if (e.shiftKey && history.future.length) {
-            // Redo
-            const state = history.future.pop();
-            history.past.push(document.querySelector('textarea, input')?.value);
-            if (document.querySelector('textarea, input')) document.querySelector('textarea, input').value = state;
-        } else if (history.past.length) {
-            // Undo
-            const state = history.past.pop();
-            history.future.push(document.querySelector('textarea, input')?.value);
-            if (document.querySelector('textarea, input')) document.querySelector('textarea, input').value = state;
-        }
-    }
-});
-document.addEventListener('input', saveState);
-</script>
-<script>
-// Templates gallery
-const templates = [
-    { name: 'Default', apply: () => {} },
-    { name: 'Minimal', apply: () => document.body.style.fontFamily = 'system-ui, sans-serif' }
-];
-const templateSelect = document.createElement('select');
-templates.forEach(t => {
-    const opt = document.createElement('option');
-    opt.value = t.name;
-    opt.textContent = t.name;
-    templateSelect.appendChild(opt);
-});
-templateSelect.onchange = (e) => {
-    const template = templates.find(t => t.name === e.target.value);
-    if (template) template.apply();
-};
-document.querySelector('.container')?.appendChild(templateSelect);
-</script>
-<style>
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.container { animation: fadeIn 0.3s ease-out; }
-button { transition: all 0.2s ease; }
-button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-</style>
-<script>
-// Auto-save to localStorage
-const saveKey = 'app-data-' + location.pathname;
-const saveData = () => {
-    const data = { timestamp: Date.now(), inputs: {} };
-    document.querySelectorAll('input, textarea').forEach(el => {
-        data.inputs[el.id || el.name] = el.value;
-    });
-    localStorage.setItem(saveKey, JSON.stringify(data));
-};
-const loadData = () => {
-    const saved = localStorage.getItem(saveKey);
-    if (saved) {
-        const data = JSON.parse(saved);
-        Object.entries(data.inputs).forEach(([key, value]) => {
-            const el = document.getElementById(key) || document.querySelector('[name="' + key + '"]');
-            if (el) el.value = value;
-        });
-    }
-};
-document.addEventListener('input', saveData);
-document.addEventListener('DOMContentLoaded', loadData);
-</script>
-<script>
-// Keyboard shortcuts
-document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey || e.metaKey) {
-        switch(e.key) {
-            case 's': e.preventDefault(); console.log('Save shortcut'); break;
-            case 'r': e.preventDefault(); location.reload(); break;
-            case 'f': e.preventDefault(); document.querySelector('input')?.focus(); break;
-        }
-    }
-});
-</script>
-<script>
-// Dark mode toggle
-const darkModeToggle = document.createElement('button');
-darkModeToggle.textContent = '🌙';
-darkModeToggle.style.cssText = 'position:fixed;top:20px;right:20px;background:none;border:none;font-size:24px;cursor:pointer;z-index:1000;';
-darkModeToggle.onclick = () => {
-    document.body.classList.toggle('dark-mode');
-    darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-};
-document.body.appendChild(darkModeToggle);
-
-// Check saved preference
-if (localStorage.getItem('darkMode') === 'true') {
-    document.body.classList.add('dark-mode');
-    darkModeToggle.textContent = '☀️';
-}
-</script>
-<style>
-.dark-mode { background: #1a1a1a !important; color: #e0e0e0 !important; }
-.dark-mode .container { background: #2a2a2a !important; }
-</style>
-<style>
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.container { animation: fadeIn 0.3s ease-out; }
-button { transition: all 0.2s ease; }
-button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-</style>
-<script>
-// Export functionality
-function exportData(format) {
-    const data = document.querySelector('textarea, input')?.value || document.body.innerText;
-    const blob = new Blob([data], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'export.' + format;
-    a.click();
-    URL.revokeObjectURL(url);
-}
-</script>
-<script>
-// Dark mode toggle
-const darkModeToggle = document.createElement('button');
-darkModeToggle.textContent = '🌙';
-darkModeToggle.style.cssText = 'position:fixed;top:20px;right:20px;background:none;border:none;font-size:24px;cursor:pointer;z-index:1000;';
-darkModeToggle.onclick = () => {
-    document.body.classList.toggle('dark-mode');
-    darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-};
-document.body.appendChild(darkModeToggle);
-
-// Check saved preference
-if (localStorage.getItem('darkMode') === 'true') {
-    document.body.classList.add('dark-mode');
-    darkModeToggle.textContent = '☀️';
-}
-</script>
-<style>
-.dark-mode { background: #1a1a1a !important; color: #e0e0e0 !important; }
-.dark-mode .container { background: #2a2a2a !important; }
-</style>
-<script>
-// Dark mode toggle
-const darkModeToggle = document.createElement('button');
-darkModeToggle.textContent = '🌙';
-darkModeToggle.style.cssText = 'position:fixed;top:20px;right:20px;background:none;border:none;font-size:24px;cursor:pointer;z-index:1000;';
-darkModeToggle.onclick = () => {
-    document.body.classList.toggle('dark-mode');
-    darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-};
-document.body.appendChild(darkModeToggle);
-
-// Check saved preference
-if (localStorage.getItem('darkMode') === 'true') {
-    document.body.classList.add('dark-mode');
-    darkModeToggle.textContent = '☀️';
-}
-</script>
-<style>
-.dark-mode { background: #1a1a1a !important; color: #e0e0e0 !important; }
-.dark-mode .container { background: #2a2a2a !important; }
-</style>
-<script>
-// Dark mode toggle
-const darkModeToggle = document.createElement('button');
-darkModeToggle.textContent = '🌙';
-darkModeToggle.style.cssText = 'position:fixed;top:20px;right:20px;background:none;border:none;font-size:24px;cursor:pointer;z-index:1000;';
-darkModeToggle.onclick = () => {
-    document.body.classList.toggle('dark-mode');
-    darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-};
-document.body.appendChild(darkModeToggle);
-
-// Check saved preference
-if (localStorage.getItem('darkMode') === 'true') {
-    document.body.classList.add('dark-mode');
-    darkModeToggle.textContent = '☀️';
-}
-</script>
-<style>
-.dark-mode { background: #1a1a1a !important; color: #e0e0e0 !important; }
-.dark-mode .container { background: #2a2a2a !important; }
-</style>
-<script>
-// Keyboard shortcuts
-document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey || e.metaKey) {
-        switch(e.key) {
-            case 's': e.preventDefault(); console.log('Save shortcut'); break;
-            case 'r': e.preventDefault(); location.reload(); break;
-            case 'f': e.preventDefault(); document.querySelector('input')?.focus(); break;
-        }
-    }
-});
-</script>
-<script>
-// Templates gallery
-const templates = [
-    { name: 'Default', apply: () => {} },
-    { name: 'Minimal', apply: () => document.body.style.fontFamily = 'system-ui, sans-serif' }
-];
-const templateSelect = document.createElement('select');
-templates.forEach(t => {
-    const opt = document.createElement('option');
-    opt.value = t.name;
-    opt.textContent = t.name;
-    templateSelect.appendChild(opt);
-});
-templateSelect.onchange = (e) => {
-    const template = templates.find(t => t.name === e.target.value);
-    if (template) template.apply();
-};
-document.querySelector('.container')?.appendChild(templateSelect);
-</script>
-<script>
-// Share functionality
-const shareBtn = document.createElement('button');
-shareBtn.textContent = '🔗 Share';
-shareBtn.style.cssText = 'position:fixed;bottom:20px;right:20px;padding:10px 20px;background:#6f42c1;color:white;border:none;border-radius:20px;cursor:pointer;';
-shareBtn.onclick = () => {
-    if (navigator.share) {
-        navigator.share({ title: document.title, url: location.href });
-    } else {
-        navigator.clipboard.writeText(location.href);
-        shareBtn.textContent = '✅ Copied!';
-        setTimeout(() => shareBtn.textContent = '🔗 Share', 2000);
-    }
-};
-document.body.appendChild(shareBtn);
-</script>
-<script>
-// Request notification permission
-if ('Notification' in window && Notification.permission === 'default') {
-    Notification.requestPermission();
-}
-function notify(title, body) {
-    if (Notification.permission === 'granted') {
-        new Notification(title, { body });
-    }
-}
-</script>
-<script>
-// Import from file
-const importBtn = document.createElement('button');
-importBtn.textContent = '📁 Import';
-importBtn.onclick = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.onchange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const textArea = document.querySelector('textarea');
-            if (textArea) textArea.value = e.target.result;
-        };
-        reader.readAsText(file);
-    };
-    input.click();
-};
-document.querySelector('.container')?.appendChild(importBtn);
-</script>
-<script>
-// Usage stats
-const stats = JSON.parse(localStorage.getItem('app-stats') || '{}');
-stats.visits = (stats.visits || 0) + 1;
-stats.lastVisit = new Date().toISOString();
-localStorage.setItem('app-stats', JSON.stringify(stats));
-console.log('Visits:', stats.visits);
-</script>
-<style>
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.container { animation: fadeIn 0.3s ease-out; }
-button { transition: all 0.2s ease; }
-button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-</style>
-<script>
-// Export functionality
-function exportData(format) {
-    const data = document.querySelector('textarea, input')?.value || document.body.innerText;
-    const blob = new Blob([data], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'export.' + format;
-    a.click();
-    URL.revokeObjectURL(url);
-}
-</script>
-<script>
-// Templates gallery
-const templates = [
-    { name: 'Default', apply: () => {} },
-    { name: 'Minimal', apply: () => document.body.style.fontFamily = 'system-ui, sans-serif' }
-];
-const templateSelect = document.createElement('select');
-templates.forEach(t => {
-    const opt = document.createElement('option');
-    opt.value = t.name;
-    opt.textContent = t.name;
-    templateSelect.appendChild(opt);
-});
-templateSelect.onchange = (e) => {
-    const template = templates.find(t => t.name === e.target.value);
-    if (template) template.apply();
-};
-document.querySelector('.container')?.appendChild(templateSelect);
-</script>
-<script>
-// Templates gallery
-const templates = [
-    { name: 'Default', apply: () => {} },
-    { name: 'Minimal', apply: () => document.body.style.fontFamily = 'system-ui, sans-serif' }
-];
-const templateSelect = document.createElement('select');
-templates.forEach(t => {
-    const opt = document.createElement('option');
-    opt.value = t.name;
-    opt.textContent = t.name;
-    templateSelect.appendChild(opt);
-});
-templateSelect.onchange = (e) => {
-    const template = templates.find(t => t.name === e.target.value);
-    if (template) template.apply();
-};
-document.querySelector('.container')?.appendChild(templateSelect);
-</script>
-<script>
-// Offline indicator
-const offlineIndicator = document.createElement('div');
-offlineIndicator.textContent = '⚠️ Offline';
-offlineIndicator.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ff6b6b;color:white;text-align:center;padding:5px;display:none;';
-document.body.appendChild(offlineIndicator);
-window.addEventListener('online', () => offlineIndicator.style.display = 'none');
-window.addEventListener('offline', () => offlineIndicator.style.display = 'block');
-</script>
-<script>
-// Templates gallery
-const templates = [
-    { name: 'Default', apply: () => {} },
-    { name: 'Minimal', apply: () => document.body.style.fontFamily = 'system-ui, sans-serif' }
-];
-const templateSelect = document.createElement('select');
-templates.forEach(t => {
-    const opt = document.createElement('option');
-    opt.value = t.name;
-    opt.textContent = t.name;
-    templateSelect.appendChild(opt);
-});
-templateSelect.onchange = (e) => {
-    const template = templates.find(t => t.name === e.target.value);
-    if (template) template.apply();
-};
-document.querySelector('.container')?.appendChild(templateSelect);
-</script>
-<script>
-// Usage stats
-const stats = JSON.parse(localStorage.getItem('app-stats') || '{}');
-stats.visits = (stats.visits || 0) + 1;
-stats.lastVisit = new Date().toISOString();
-localStorage.setItem('app-stats', JSON.stringify(stats));
-console.log('Visits:', stats.visits);
-</script>
-<script>
-// Import from file
-const importBtn = document.createElement('button');
-importBtn.textContent = '📁 Import';
-importBtn.onclick = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.onchange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const textArea = document.querySelector('textarea');
-            if (textArea) textArea.value = e.target.result;
-        };
-        reader.readAsText(file);
-    };
-    input.click();
-};
-document.querySelector('.container')?.appendChild(importBtn);
-</script>
-<script>
-// Templates gallery
-const templates = [
-    { name: 'Default', apply: () => {} },
-    { name: 'Minimal', apply: () => document.body.style.fontFamily = 'system-ui, sans-serif' }
-];
-const templateSelect = document.createElement('select');
-templates.forEach(t => {
-    const opt = document.createElement('option');
-    opt.value = t.name;
-    opt.textContent = t.name;
-    templateSelect.appendChild(opt);
-});
-templateSelect.onchange = (e) => {
-    const template = templates.find(t => t.name === e.target.value);
-    if (template) template.apply();
-};
-document.querySelector('.container')?.appendChild(templateSelect);
-</script>
-<script>
-// Request notification permission
-if ('Notification' in window && Notification.permission === 'default') {
-    Notification.requestPermission();
-}
-function notify(title, body) {
-    if (Notification.permission === 'granted') {
-        new Notification(title, { body });
-    }
-}
-</script>
-<style>
-@media (max-width: 768px) {
-    .container { padding: 10px; }
-    h1 { font-size: 1.5rem; }
-    button { width: 100%; margin: 5px 0; }
-}
-</style>
-<script>
-// Undo/Redo history
-const history = { past: [], future: [] };
-const saveState = () => {
-    const state = document.querySelector('textarea, input')?.value;
-    if (state) history.past.push(state);
-};
-document.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
-        e.preventDefault();
-        if (e.shiftKey && history.future.length) {
-            // Redo
-            const state = history.future.pop();
-            history.past.push(document.querySelector('textarea, input')?.value);
-            if (document.querySelector('textarea, input')) document.querySelector('textarea, input').value = state;
-        } else if (history.past.length) {
-            // Undo
-            const state = history.past.pop();
-            history.future.push(document.querySelector('textarea, input')?.value);
-            if (document.querySelector('textarea, input')) document.querySelector('textarea, input').value = state;
-        }
-    }
-});
-document.addEventListener('input', saveState);
-</script>
-<style>
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.container { animation: fadeIn 0.3s ease-out; }
-button { transition: all 0.2s ease; }
-button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-</style>
-<script>
-// Keyboard shortcuts
-document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey || e.metaKey) {
-        switch(e.key) {
-            case 's': e.preventDefault(); console.log('Save shortcut'); break;
-            case 'r': e.preventDefault(); location.reload(); break;
-            case 'f': e.preventDefault(); document.querySelector('input')?.focus(); break;
-        }
-    }
-});
-</script>
-<script>
-// Offline indicator
-const offlineIndicator = document.createElement('div');
-offlineIndicator.textContent = '⚠️ Offline';
-offlineIndicator.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ff6b6b;color:white;text-align:center;padding:5px;display:none;';
-document.body.appendChild(offlineIndicator);
-window.addEventListener('online', () => offlineIndicator.style.display = 'none');
-window.addEventListener('offline', () => offlineIndicator.style.display = 'block');
-</script>
-<script>
-// Auto-save to localStorage
-const saveKey = 'app-data-' + location.pathname;
-const saveData = () => {
-    const data = { timestamp: Date.now(), inputs: {} };
-    document.querySelectorAll('input, textarea').forEach(el => {
-        data.inputs[el.id || el.name] = el.value;
-    });
-    localStorage.setItem(saveKey, JSON.stringify(data));
-};
-const loadData = () => {
-    const saved = localStorage.getItem(saveKey);
-    if (saved) {
-        const data = JSON.parse(saved);
-        Object.entries(data.inputs).forEach(([key, value]) => {
-            const el = document.getElementById(key) || document.querySelector('[name="' + key + '"]');
-            if (el) el.value = value;
-        });
-    }
-};
-document.addEventListener('input', saveData);
-document.addEventListener('DOMContentLoaded', loadData);
-</script>
-<script>
-// Usage stats
-const stats = JSON.parse(localStorage.getItem('app-stats') || '{}');
-stats.visits = (stats.visits || 0) + 1;
-stats.lastVisit = new Date().toISOString();
-localStorage.setItem('app-stats', JSON.stringify(stats));
-console.log('Visits:', stats.visits);
-</script>
-<script>
-// Simple tutorial
-const tutorialSteps = [
-    { selector: 'h1', text: 'Welcome! This is the main title.' },
-    { selector: 'button', text: 'Click here to perform actions.' }
-];
-let currentStep = 0;
-function showTutorial() {
-    if (currentStep < tutorialSteps.length) {
-        const step = tutorialSteps[currentStep];
-        const el = document.querySelector(step.selector);
-        if (el) {
-            const tooltip = document.createElement('div');
-            tooltip.textContent = step.text;
-            tooltip.style.cssText = 'position:absolute;background:#6f42c1;color:white;padding:10px;border-radius:5px;z-index:1000;';
-            el.style.position = 'relative';
-            el.appendChild(tooltip);
-            setTimeout(() => tooltip.remove(), 3000);
-        }
-        currentStep++;
-    }
-}
-// Show tutorial on first visit
-if (!localStorage.getItem('tutorial-shown')) {
-    setTimeout(showTutorial, 1000);
-    localStorage.setItem('tutorial-shown', 'true');
-}
-</script>
-<style>
-@media (max-width: 768px) {
-    .container { padding: 10px; }
-    h1 { font-size: 1.5rem; }
-    button { width: 100%; margin: 5px 0; }
-}
-</style>
-<script>
-// Simple tutorial
-const tutorialSteps = [
-    { selector: 'h1', text: 'Welcome! This is the main title.' },
-    { selector: 'button', text: 'Click here to perform actions.' }
-];
-let currentStep = 0;
-function showTutorial() {
-    if (currentStep < tutorialSteps.length) {
-        const step = tutorialSteps[currentStep];
-        const el = document.querySelector(step.selector);
-        if (el) {
-            const tooltip = document.createElement('div');
-            tooltip.textContent = step.text;
-            tooltip.style.cssText = 'position:absolute;background:#6f42c1;color:white;padding:10px;border-radius:5px;z-index:1000;';
-            el.style.position = 'relative';
-            el.appendChild(tooltip);
-            setTimeout(() => tooltip.remove(), 3000);
-        }
-        currentStep++;
-    }
-}
-// Show tutorial on first visit
-if (!localStorage.getItem('tutorial-shown')) {
-    setTimeout(showTutorial, 1000);
-    localStorage.setItem('tutorial-shown', 'true');
-}
-</script>
-<script>
-// Dark mode toggle
-const darkModeToggle = document.createElement('button');
-darkModeToggle.textContent = '🌙';
-darkModeToggle.style.cssText = 'position:fixed;top:20px;right:20px;background:none;border:none;font-size:24px;cursor:pointer;z-index:1000;';
-darkModeToggle.onclick = () => {
-    document.body.classList.toggle('dark-mode');
-    darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-};
-document.body.appendChild(darkModeToggle);
-
-// Check saved preference
-if (localStorage.getItem('darkMode') === 'true') {
-    document.body.classList.add('dark-mode');
-    darkModeToggle.textContent = '☀️';
-}
-</script>
-<style>
-.dark-mode { background: #1a1a1a !important; color: #e0e0e0 !important; }
-.dark-mode .container { background: #2a2a2a !important; }
-</style>
-<script>
-// Offline indicator
-const offlineIndicator = document.createElement('div');
-offlineIndicator.textContent = '⚠️ Offline';
-offlineIndicator.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ff6b6b;color:white;text-align:center;padding:5px;display:none;';
-document.body.appendChild(offlineIndicator);
-window.addEventListener('online', () => offlineIndicator.style.display = 'none');
-window.addEventListener('offline', () => offlineIndicator.style.display = 'block');
-</script>
-<style>
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.container { animation: fadeIn 0.3s ease-out; }
-button { transition: all 0.2s ease; }
-button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-</style>
-<script>
-// Import from file
-const importBtn = document.createElement('button');
-importBtn.textContent = '📁 Import';
-importBtn.onclick = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.onchange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const textArea = document.querySelector('textarea');
-            if (textArea) textArea.value = e.target.result;
-        };
-        reader.readAsText(file);
-    };
-    input.click();
-};
-document.querySelector('.container')?.appendChild(importBtn);
-</script>
-<script>
-// Templates gallery
-const templates = [
-    { name: 'Default', apply: () => {} },
-    { name: 'Minimal', apply: () => document.body.style.fontFamily = 'system-ui, sans-serif' }
-];
-const templateSelect = document.createElement('select');
-templates.forEach(t => {
-    const opt = document.createElement('option');
-    opt.value = t.name;
-    opt.textContent = t.name;
-    templateSelect.appendChild(opt);
-});
-templateSelect.onchange = (e) => {
-    const template = templates.find(t => t.name === e.target.value);
-    if (template) template.apply();
-};
-document.querySelector('.container')?.appendChild(templateSelect);
-</script>
-<script>
-// Export functionality
-function exportData(format) {
-    const data = document.querySelector('textarea, input')?.value || document.body.innerText;
-    const blob = new Blob([data], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'export.' + format;
-    a.click();
-    URL.revokeObjectURL(url);
-}
-</script>
-<script>
-// Export functionality
-function exportData(format) {
-    const data = document.querySelector('textarea, input')?.value || document.body.innerText;
-    const blob = new Blob([data], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'export.' + format;
-    a.click();
-    URL.revokeObjectURL(url);
-}
-</script>
-<script>
-// Keyboard shortcuts
-document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey || e.metaKey) {
-        switch(e.key) {
-            case 's': e.preventDefault(); console.log('Save shortcut'); break;
-            case 'r': e.preventDefault(); location.reload(); break;
-            case 'f': e.preventDefault(); document.querySelector('input')?.focus(); break;
-        }
-    }
-});
-</script>
-<style>
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.container { animation: fadeIn 0.3s ease-out; }
-button { transition: all 0.2s ease; }
-button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-</style>
-<script>
-// Import from file
-const importBtn = document.createElement('button');
-importBtn.textContent = '📁 Import';
-importBtn.onclick = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.onchange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const textArea = document.querySelector('textarea');
-            if (textArea) textArea.value = e.target.result;
-        };
-        reader.readAsText(file);
-    };
-    input.click();
-};
-document.querySelector('.container')?.appendChild(importBtn);
-</script>
-<script>
-// Undo/Redo history
-const history = { past: [], future: [] };
-const saveState = () => {
-    const state = document.querySelector('textarea, input')?.value;
-    if (state) history.past.push(state);
-};
-document.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
-        e.preventDefault();
-        if (e.shiftKey && history.future.length) {
-            // Redo
-            const state = history.future.pop();
-            history.past.push(document.querySelector('textarea, input')?.value);
-            if (document.querySelector('textarea, input')) document.querySelector('textarea, input').value = state;
-        } else if (history.past.length) {
-            // Undo
-            const state = history.past.pop();
-            history.future.push(document.querySelector('textarea, input')?.value);
-            if (document.querySelector('textarea, input')) document.querySelector('textarea, input').value = state;
-        }
-    }
-});
-document.addEventListener('input', saveState);
-</script>
-<script>
-// Import from file
-const importBtn = document.createElement('button');
-importBtn.textContent = '📁 Import';
-importBtn.onclick = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.onchange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const textArea = document.querySelector('textarea');
-            if (textArea) textArea.value = e.target.result;
-        };
-        reader.readAsText(file);
-    };
-    input.click();
-};
-document.querySelector('.container')?.appendChild(importBtn);
-</script>
-<script>
-// Export functionality
-function exportData(format) {
-    const data = document.querySelector('textarea, input')?.value || document.body.innerText;
-    const blob = new Blob([data], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'export.' + format;
-    a.click();
-    URL.revokeObjectURL(url);
-}
-</script>
-<script>
-// Request notification permission
-if ('Notification' in window && Notification.permission === 'default') {
-    Notification.requestPermission();
-}
-function notify(title, body) {
-    if (Notification.permission === 'granted') {
-        new Notification(title, { body });
-    }
-}
-</script>
-<script>
-// Import from file
-const importBtn = document.createElement('button');
-importBtn.textContent = '📁 Import';
-importBtn.onclick = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.onchange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const textArea = document.querySelector('textarea');
-            if (textArea) textArea.value = e.target.result;
-        };
-        reader.readAsText(file);
-    };
-    input.click();
-};
-document.querySelector('.container')?.appendChild(importBtn);
-</script>
-<script>
-// Auto-save to localStorage
-const saveKey = 'app-data-' + location.pathname;
-const saveData = () => {
-    const data = { timestamp: Date.now(), inputs: {} };
-    document.querySelectorAll('input, textarea').forEach(el => {
-        data.inputs[el.id || el.name] = el.value;
-    });
-    localStorage.setItem(saveKey, JSON.stringify(data));
-};
-const loadData = () => {
-    const saved = localStorage.getItem(saveKey);
-    if (saved) {
-        const data = JSON.parse(saved);
-        Object.entries(data.inputs).forEach(([key, value]) => {
-            const el = document.getElementById(key) || document.querySelector('[name="' + key + '"]');
-            if (el) el.value = value;
-        });
-    }
-};
-document.addEventListener('input', saveData);
-document.addEventListener('DOMContentLoaded', loadData);
-</script>
-<script>
-// Simple tutorial
-const tutorialSteps = [
-    { selector: 'h1', text: 'Welcome! This is the main title.' },
-    { selector: 'button', text: 'Click here to perform actions.' }
-];
-let currentStep = 0;
-function showTutorial() {
-    if (currentStep < tutorialSteps.length) {
-        const step = tutorialSteps[currentStep];
-        const el = document.querySelector(step.selector);
-        if (el) {
-            const tooltip = document.createElement('div');
-            tooltip.textContent = step.text;
-            tooltip.style.cssText = 'position:absolute;background:#6f42c1;color:white;padding:10px;border-radius:5px;z-index:1000;';
-            el.style.position = 'relative';
-            el.appendChild(tooltip);
-            setTimeout(() => tooltip.remove(), 3000);
-        }
-        currentStep++;
-    }
-}
-// Show tutorial on first visit
-if (!localStorage.getItem('tutorial-shown')) {
-    setTimeout(showTutorial, 1000);
-    localStorage.setItem('tutorial-shown', 'true');
-}
-</script>
-<script>
-// Templates gallery
-const templates = [
-    { name: 'Default', apply: () => {} },
-    { name: 'Minimal', apply: () => document.body.style.fontFamily = 'system-ui, sans-serif' }
-];
-const templateSelect = document.createElement('select');
-templates.forEach(t => {
-    const opt = document.createElement('option');
-    opt.value = t.name;
-    opt.textContent = t.name;
-    templateSelect.appendChild(opt);
-});
-templateSelect.onchange = (e) => {
-    const template = templates.find(t => t.name === e.target.value);
-    if (template) template.apply();
-};
-document.querySelector('.container')?.appendChild(templateSelect);
-</script>
-<script>
-// Simple tutorial
-const tutorialSteps = [
-    { selector: 'h1', text: 'Welcome! This is the main title.' },
-    { selector: 'button', text: 'Click here to perform actions.' }
-];
-let currentStep = 0;
-function showTutorial() {
-    if (currentStep < tutorialSteps.length) {
-        const step = tutorialSteps[currentStep];
-        const el = document.querySelector(step.selector);
-        if (el) {
-            const tooltip = document.createElement('div');
-            tooltip.textContent = step.text;
-            tooltip.style.cssText = 'position:absolute;background:#6f42c1;color:white;padding:10px;border-radius:5px;z-index:1000;';
-            el.style.position = 'relative';
-            el.appendChild(tooltip);
-            setTimeout(() => tooltip.remove(), 3000);
-        }
-        currentStep++;
-    }
-}
-// Show tutorial on first visit
-if (!localStorage.getItem('tutorial-shown')) {
-    setTimeout(showTutorial, 1000);
-    localStorage.setItem('tutorial-shown', 'true');
-}
-</script>
-<script>
-// Import from file
-const importBtn = document.createElement('button');
-importBtn.textContent = '📁 Import';
-importBtn.onclick = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.onchange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const textArea = document.querySelector('textarea');
-            if (textArea) textArea.value = e.target.result;
-        };
-        reader.readAsText(file);
-    };
-    input.click();
-};
-document.querySelector('.container')?.appendChild(importBtn);
-</script>
-<script>
-// Share functionality
-const shareBtn = document.createElement('button');
-shareBtn.textContent = '🔗 Share';
-shareBtn.style.cssText = 'position:fixed;bottom:20px;right:20px;padding:10px 20px;background:#6f42c1;color:white;border:none;border-radius:20px;cursor:pointer;';
-shareBtn.onclick = () => {
-    if (navigator.share) {
-        navigator.share({ title: document.title, url: location.href });
-    } else {
-        navigator.clipboard.writeText(location.href);
-        shareBtn.textContent = '✅ Copied!';
-        setTimeout(() => shareBtn.textContent = '🔗 Share', 2000);
-    }
-};
-document.body.appendChild(shareBtn);
-</script>
-<style>
-@media (max-width: 768px) {
-    .container { padding: 10px; }
-    h1 { font-size: 1.5rem; }
-    button { width: 100%; margin: 5px 0; }
-}
-</style>
-<script>
-// Request notification permission
-if ('Notification' in window && Notification.permission === 'default') {
-    Notification.requestPermission();
-}
-function notify(title, body) {
-    if (Notification.permission === 'granted') {
-        new Notification(title, { body });
-    }
-}
-</script>
-<script>
-// Templates gallery
-const templates = [
-    { name: 'Default', apply: () => {} },
-    { name: 'Minimal', apply: () => document.body.style.fontFamily = 'system-ui, sans-serif' }
-];
-const templateSelect = document.createElement('select');
-templates.forEach(t => {
-    const opt = document.createElement('option');
-    opt.value = t.name;
-    opt.textContent = t.name;
-    templateSelect.appendChild(opt);
-});
-templateSelect.onchange = (e) => {
-    const template = templates.find(t => t.name === e.target.value);
-    if (template) template.apply();
-};
-document.querySelector('.container')?.appendChild(templateSelect);
-</script>
-<script>
-// Usage stats
-const stats = JSON.parse(localStorage.getItem('app-stats') || '{}');
-stats.visits = (stats.visits || 0) + 1;
-stats.lastVisit = new Date().toISOString();
-localStorage.setItem('app-stats', JSON.stringify(stats));
-console.log('Visits:', stats.visits);
-</script>
-<script>
-// Offline indicator
-const offlineIndicator = document.createElement('div');
-offlineIndicator.textContent = '⚠️ Offline';
-offlineIndicator.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ff6b6b;color:white;text-align:center;padding:5px;display:none;';
-document.body.appendChild(offlineIndicator);
-window.addEventListener('online', () => offlineIndicator.style.display = 'none');
-window.addEventListener('offline', () => offlineIndicator.style.display = 'block');
-</script>
-<script>
-// Templates gallery
-const templates = [
-    { name: 'Default', apply: () => {} },
-    { name: 'Minimal', apply: () => document.body.style.fontFamily = 'system-ui, sans-serif' }
-];
-const templateSelect = document.createElement('select');
-templates.forEach(t => {
-    const opt = document.createElement('option');
-    opt.value = t.name;
-    opt.textContent = t.name;
-    templateSelect.appendChild(opt);
-});
-templateSelect.onchange = (e) => {
-    const template = templates.find(t => t.name === e.target.value);
-    if (template) template.apply();
-};
-document.querySelector('.container')?.appendChild(templateSelect);
-</script>
-<script>
-// Export functionality
-function exportData(format) {
-    const data = document.querySelector('textarea, input')?.value || document.body.innerText;
-    const blob = new Blob([data], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'export.' + format;
-    a.click();
-    URL.revokeObjectURL(url);
-}
-</script>
-<script>
-// Keyboard shortcuts
-document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey || e.metaKey) {
-        switch(e.key) {
-            case 's': e.preventDefault(); console.log('Save shortcut'); break;
-            case 'r': e.preventDefault(); location.reload(); break;
-            case 'f': e.preventDefault(); document.querySelector('input')?.focus(); break;
-        }
-    }
-});
-</script>
-<script>
-// Usage stats
-const stats = JSON.parse(localStorage.getItem('app-stats') || '{}');
-stats.visits = (stats.visits || 0) + 1;
-stats.lastVisit = new Date().toISOString();
-localStorage.setItem('app-stats', JSON.stringify(stats));
-console.log('Visits:', stats.visits);
-</script>
-<style>
-@media (max-width: 768px) {
-    .container { padding: 10px; }
-    h1 { font-size: 1.5rem; }
-    button { width: 100%; margin: 5px 0; }
-}
-</style>
-<script>
-// Request notification permission
-if ('Notification' in window && Notification.permission === 'default') {
-    Notification.requestPermission();
-}
-function notify(title, body) {
-    if (Notification.permission === 'granted') {
-        new Notification(title, { body });
-    }
-}
-</script>
-<script>
-// Request notification permission
-if ('Notification' in window && Notification.permission === 'default') {
-    Notification.requestPermission();
-}
-function notify(title, body) {
-    if (Notification.permission === 'granted') {
-        new Notification(title, { body });
-    }
-}
-</script>
-<script>
-// Simple tutorial
-const tutorialSteps = [
-    { selector: 'h1', text: 'Welcome! This is the main title.' },
-    { selector: 'button', text: 'Click here to perform actions.' }
-];
-let currentStep = 0;
-function showTutorial() {
-    if (currentStep < tutorialSteps.length) {
-        const step = tutorialSteps[currentStep];
-        const el = document.querySelector(step.selector);
-        if (el) {
-            const tooltip = document.createElement('div');
-            tooltip.textContent = step.text;
-            tooltip.style.cssText = 'position:absolute;background:#6f42c1;color:white;padding:10px;border-radius:5px;z-index:1000;';
-            el.style.position = 'relative';
-            el.appendChild(tooltip);
-            setTimeout(() => tooltip.remove(), 3000);
-        }
-        currentStep++;
-    }
-}
-// Show tutorial on first visit
-if (!localStorage.getItem('tutorial-shown')) {
-    setTimeout(showTutorial, 1000);
-    localStorage.setItem('tutorial-shown', 'true');
-}
-</script>
-<script>
-// Templates gallery
-const templates = [
-    { name: 'Default', apply: () => {} },
-    { name: 'Minimal', apply: () => document.body.style.fontFamily = 'system-ui, sans-serif' }
-];
-const templateSelect = document.createElement('select');
-templates.forEach(t => {
-    const opt = document.createElement('option');
-    opt.value = t.name;
-    opt.textContent = t.name;
-    templateSelect.appendChild(opt);
-});
-templateSelect.onchange = (e) => {
-    const template = templates.find(t => t.name === e.target.value);
-    if (template) template.apply();
-};
-document.querySelector('.container')?.appendChild(templateSelect);
-</script>
-<style>
-@media (max-width: 768px) {
-    .container { padding: 10px; }
-    h1 { font-size: 1.5rem; }
-    button { width: 100%; margin: 5px 0; }
-}
-</style>
-<script>
-// Share functionality
-const shareBtn = document.createElement('button');
-shareBtn.textContent = '🔗 Share';
-shareBtn.style.cssText = 'position:fixed;bottom:20px;right:20px;padding:10px 20px;background:#6f42c1;color:white;border:none;border-radius:20px;cursor:pointer;';
-shareBtn.onclick = () => {
-    if (navigator.share) {
-        navigator.share({ title: document.title, url: location.href });
-    } else {
-        navigator.clipboard.writeText(location.href);
-        shareBtn.textContent = '✅ Copied!';
-        setTimeout(() => shareBtn.textContent = '🔗 Share', 2000);
-    }
-};
-document.body.appendChild(shareBtn);
-</script>
-<script>
-// Simple tutorial
-const tutorialSteps = [
-    { selector: 'h1', text: 'Welcome! This is the main title.' },
-    { selector: 'button', text: 'Click here to perform actions.' }
-];
-let currentStep = 0;
-function showTutorial() {
-    if (currentStep < tutorialSteps.length) {
-        const step = tutorialSteps[currentStep];
-        const el = document.querySelector(step.selector);
-        if (el) {
-            const tooltip = document.createElement('div');
-            tooltip.textContent = step.text;
-            tooltip.style.cssText = 'position:absolute;background:#6f42c1;color:white;padding:10px;border-radius:5px;z-index:1000;';
-            el.style.position = 'relative';
-            el.appendChild(tooltip);
-            setTimeout(() => tooltip.remove(), 3000);
-        }
-        currentStep++;
-    }
-}
-// Show tutorial on first visit
-if (!localStorage.getItem('tutorial-shown')) {
-    setTimeout(showTutorial, 1000);
-    localStorage.setItem('tutorial-shown', 'true');
-}
-</script>
-<script>
-// Request notification permission
-if ('Notification' in window && Notification.permission === 'default') {
-    Notification.requestPermission();
-}
-function notify(title, body) {
-    if (Notification.permission === 'granted') {
-        new Notification(title, { body });
-    }
-}
-</script>
-<script>
-// Templates gallery
-const templates = [
-    { name: 'Default', apply: () => {} },
-    { name: 'Minimal', apply: () => document.body.style.fontFamily = 'system-ui, sans-serif' }
-];
-const templateSelect = document.createElement('select');
-templates.forEach(t => {
-    const opt = document.createElement('option');
-    opt.value = t.name;
-    opt.textContent = t.name;
-    templateSelect.appendChild(opt);
-});
-templateSelect.onchange = (e) => {
-    const template = templates.find(t => t.name === e.target.value);
-    if (template) template.apply();
-};
-document.querySelector('.container')?.appendChild(templateSelect);
-</script>
-<script>
-// Import from file
-const importBtn = document.createElement('button');
-importBtn.textContent = '📁 Import';
-importBtn.onclick = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.onchange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const textArea = document.querySelector('textarea');
-            if (textArea) textArea.value = e.target.result;
-        };
-        reader.readAsText(file);
-    };
-    input.click();
-};
-document.querySelector('.container')?.appendChild(importBtn);
-</script>
-<style>
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.container { animation: fadeIn 0.3s ease-out; }
-button { transition: all 0.2s ease; }
-button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-</style>
-<script>
-// Undo/Redo history
-const history = { past: [], future: [] };
-const saveState = () => {
-    const state = document.querySelector('textarea, input')?.value;
-    if (state) history.past.push(state);
-};
-document.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
-        e.preventDefault();
-        if (e.shiftKey && history.future.length) {
-            // Redo
-            const state = history.future.pop();
-            history.past.push(document.querySelector('textarea, input')?.value);
-            if (document.querySelector('textarea, input')) document.querySelector('textarea, input').value = state;
-        } else if (history.past.length) {
-            // Undo
-            const state = history.past.pop();
-            history.future.push(document.querySelector('textarea, input')?.value);
-            if (document.querySelector('textarea, input')) document.querySelector('textarea, input').value = state;
-        }
-    }
-});
-document.addEventListener('input', saveState);
-</script>
-<script>
-// Import from file
-const importBtn = document.createElement('button');
-importBtn.textContent = '📁 Import';
-importBtn.onclick = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.onchange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const textArea = document.querySelector('textarea');
-            if (textArea) textArea.value = e.target.result;
-        };
-        reader.readAsText(file);
-    };
-    input.click();
-};
-document.querySelector('.container')?.appendChild(importBtn);
-</script>
-<script>
-// Export functionality
-function exportData(format) {
-    const data = document.querySelector('textarea, input')?.value || document.body.innerText;
-    const blob = new Blob([data], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'export.' + format;
-    a.click();
-    URL.revokeObjectURL(url);
-}
-</script>
-<script>
-// Auto-save to localStorage
-const saveKey = 'app-data-' + location.pathname;
-const saveData = () => {
-    const data = { timestamp: Date.now(), inputs: {} };
-    document.querySelectorAll('input, textarea').forEach(el => {
-        data.inputs[el.id || el.name] = el.value;
-    });
-    localStorage.setItem(saveKey, JSON.stringify(data));
-};
-const loadData = () => {
-    const saved = localStorage.getItem(saveKey);
-    if (saved) {
-        const data = JSON.parse(saved);
-        Object.entries(data.inputs).forEach(([key, value]) => {
-            const el = document.getElementById(key) || document.querySelector('[name="' + key + '"]');
-            if (el) el.value = value;
-        });
-    }
-};
-document.addEventListener('input', saveData);
-document.addEventListener('DOMContentLoaded', loadData);
-</script>
-<script>
-// Simple tutorial
-const tutorialSteps = [
-    { selector: 'h1', text: 'Welcome! This is the main title.' },
-    { selector: 'button', text: 'Click here to perform actions.' }
-];
-let currentStep = 0;
-function showTutorial() {
-    if (currentStep < tutorialSteps.length) {
-        const step = tutorialSteps[currentStep];
-        const el = document.querySelector(step.selector);
-        if (el) {
-            const tooltip = document.createElement('div');
-            tooltip.textContent = step.text;
-            tooltip.style.cssText = 'position:absolute;background:#6f42c1;color:white;padding:10px;border-radius:5px;z-index:1000;';
-            el.style.position = 'relative';
-            el.appendChild(tooltip);
-            setTimeout(() => tooltip.remove(), 3000);
-        }
-        currentStep++;
-    }
-}
-// Show tutorial on first visit
-if (!localStorage.getItem('tutorial-shown')) {
-    setTimeout(showTutorial, 1000);
-    localStorage.setItem('tutorial-shown', 'true');
-}
-</script>
-<script>
-// Share functionality
-const shareBtn = document.createElement('button');
-shareBtn.textContent = '🔗 Share';
-shareBtn.style.cssText = 'position:fixed;bottom:20px;right:20px;padding:10px 20px;background:#6f42c1;color:white;border:none;border-radius:20px;cursor:pointer;';
-shareBtn.onclick = () => {
-    if (navigator.share) {
-        navigator.share({ title: document.title, url: location.href });
-    } else {
-        navigator.clipboard.writeText(location.href);
-        shareBtn.textContent = '✅ Copied!';
-        setTimeout(() => shareBtn.textContent = '🔗 Share', 2000);
-    }
-};
-document.body.appendChild(shareBtn);
-</script>
-<style>
-@media (max-width: 768px) {
-    .container { padding: 10px; }
-    h1 { font-size: 1.5rem; }
-    button { width: 100%; margin: 5px 0; }
-}
-</style>
-<script>
-// Usage stats
-const stats = JSON.parse(localStorage.getItem('app-stats') || '{}');
-stats.visits = (stats.visits || 0) + 1;
-stats.lastVisit = new Date().toISOString();
-localStorage.setItem('app-stats', JSON.stringify(stats));
-console.log('Visits:', stats.visits);
-</script>
