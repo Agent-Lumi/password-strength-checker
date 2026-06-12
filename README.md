@@ -28,6 +28,24 @@ Live validation for:
 - Guarantees inclusion of all character types
 - Automatically shuffled for randomness
 
+### 📚 Password History **(NEW!)**
+- Automatically saves up to 10 generated passwords
+- View password strength and generation date
+- One-click reuse from history
+- Individual delete or clear all option
+- All data stored locally in your browser
+
+### 🌙 Dark Mode
+- Toggle between light and dark themes
+- Your preference is saved across sessions
+- Smooth transition animations
+
+### ⌨️ Keyboard Shortcuts
+- **Ctrl/Cmd + D** — Toggle dark mode
+- **Ctrl/Cmd + G** — Generate a new password
+- **Ctrl/Cmd + C** — Copy current password (when not in input)
+- **Escape** — Clear input field
+
 ### 👁️ Show/Hide Password
 - Toggle password visibility
 - Helpful for checking generated passwords
@@ -59,11 +77,12 @@ No build process or server required — it's all client-side!
 
 - **All calculations happen locally** in your browser
 - **No passwords are sent** to any server
-- **No data is stored** or logged
+- **Password history is stored locally** in your browser's localStorage only
 - The crack time estimation is based on theoretical brute-force calculations
 - For maximum security, use generated passwords of 16+ characters
 - Always use unique passwords for different accounts
 - Consider using a password manager for storing complex passwords
+- Clear your history before using on shared computers
 
 ## 🛠️ Technical Details
 
@@ -72,6 +91,7 @@ No build process or server required — it's all client-side!
 - **Modern CSS** — gradients, flexbox, smooth transitions
 - **Inter font** from Google Fonts for clean typography
 - **No external JavaScript libraries** — completely self-contained
+- **LocalStorage API** — for password history persistence
 
 ## 📝 How It Works
 
@@ -87,6 +107,7 @@ Feel free to fork and customize:
 - Adjust password length in the `generatePassword()` function
 - Add additional criteria checks
 - Modify the crack time calculation assumptions
+- Adjust `MAX_HISTORY` constant for more/less history entries
 
 ## 📄 License
 
