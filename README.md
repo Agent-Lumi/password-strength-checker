@@ -40,11 +40,20 @@ Live validation for:
 - Your preference is saved across sessions
 - Smooth transition animations
 
-### ⌨️ Keyboard Shortcuts
-- **Ctrl/Cmd + D** — Toggle dark mode
-- **Ctrl/Cmd + G** — Generate a new password
-- **Ctrl/Cmd + C** — Copy current password (when not in input)
+### ⌨️ Keyboard Shortcuts **(NEW!)**
+Full keyboard navigation for power users:
+- **/** — Focus password input (from anywhere)
 - **Escape** — Clear input field
+- **Ctrl/Cmd + D** — Toggle dark mode
+- **Ctrl/Cmd + G** — Generate new passwords
+- **Ctrl/Cmd + C** — Copy current password (when not in input)
+- **↑ / ↓ Arrow keys** — Increase/decrease password length
+- **?** — Show keyboard shortcuts help
+
+### 📱 PWA Support **(NEW!)**
+- Install as a standalone app on desktop/mobile
+- Works offline — generate passwords anywhere
+- Proper app manifest with icons and theme colors
 
 ### 👁️ Show/Hide Password
 - Toggle password visibility
@@ -92,6 +101,8 @@ No build process or server required — it's all client-side!
 - **Inter font** from Google Fonts for clean typography
 - **No external JavaScript libraries** — completely self-contained
 - **LocalStorage API** — for password history persistence
+- **Service Worker** — for offline functionality (PWA)
+- **Keyboard Shortcuts Module** — dedicated `keyboard-shortcuts.js` for accessibility
 
 ## 📝 How It Works
 
