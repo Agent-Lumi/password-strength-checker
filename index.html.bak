@@ -3,6 +3,8 @@
 <head><script>if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js")</script><link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#3b82f6">
+    <meta name="description" content="Analyze password security in real-time with strength meter, crack time estimation, and password generator">
     <title>Password Strength Checker - Secure Password Analyzer</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -1162,4 +1164,33 @@ if (generateBtn) {
             </div>
         </div>
 </body>
-</html>
+</html><script>
+// Share functionality
+const shareBtn = document.createElement('button');
+shareBtn.textContent = '🔗 Share';
+shareBtn.style.cssText = 'position:fixed;bottom:20px;right:20px;padding:10px 20px;background:#6f42c1;color:white;border:none;border-radius:20px;cursor:pointer;z-index:999;';
+shareBtn.onclick = () => {
+    if (navigator.share) {
+        navigator.share({ title: document.title, url: location.href });
+    } else {
+        navigator.clipboard.writeText(location.href);
+        shareBtn.textContent = '✅ Copied!';
+        setTimeout(() => shareBtn.textContent = '🔗 Share', 2000);
+    }
+};
+document.body.appendChild(shareBtn);
+
+// Add keyboard shortcuts button
+const keyboardBtn = document.createElement('button');
+keyboardBtn.textContent = '?';
+keyboardBtn.title = 'Keyboard shortcuts (press ?)';
+keyboardBtn.style.cssText = 'position:fixed;bottom:20px;right:140px;padding:10px 16px;background:#3b82f6;color:white;border:none;border-radius:20px;cursor:pointer;z-index:999;font-weight:600;';
+keyboardBtn.onclick = () => {
+    if (typeof toggleHelpModal === 'function') {
+        toggleHelpModal();
+    }
+};
+document.body.appendChild(keyboardBtn);
+</script>
+
+<script src="keyboard-shortcuts.js"></script>
