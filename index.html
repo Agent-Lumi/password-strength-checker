@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script>if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js")</script><link rel="manifest" href="manifest.json">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#3b82f6">
     <meta name="description" content="Analyze password security in real-time with strength meter, crack time estimation, and password generator">
     <title>Password Strength Checker - Secure Password Analyzer</title>
+    <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js")</script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -131,8 +133,6 @@
             font-weight: 700;
             color: #1f2937;
         }
-
-        /* Generator Section Styles */
         .generator-section {
             margin-top: 30px;
             padding-top: 30px;
@@ -154,9 +154,7 @@
             cursor: pointer;
             transition: background 0.2s;
         }
-        .option-item:hover {
-            background: #f3f4f6;
-        }
+        .option-item:hover { background: #f3f4f6; }
         .option-item input[type="checkbox"] {
             width: 20px;
             height: 20px;
@@ -181,10 +179,7 @@
             align-items: center;
             margin-bottom: 10px;
         }
-        .length-label {
-            font-weight: 600;
-            color: #374151;
-        }
+        .length-label { font-weight: 600; color: #374151; }
         .length-value {
             background: #3b82f6;
             color: white;
@@ -240,12 +235,8 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
         }
-        .generate-btn:active {
-            transform: translateY(0);
-        }
-        .generated-passwords {
-            margin-top: 20px;
-        }
+        .generate-btn:active { transform: translateY(0); }
+        .generated-passwords { margin-top: 20px; }
         .password-option {
             display: flex;
             align-items: center;
@@ -279,40 +270,29 @@
         .badge-fair { background: #fef3c7; color: #d97706; }
         .badge-good { background: #dbeafe; color: #2563eb; }
         .badge-strong { background: #d1fae5; color: #059669; }
-        .copy-btn {
+        .copy-btn, .use-btn {
             padding: 8px 14px;
-            background: #3b82f6;
-            color: white;
             border: none;
             border-radius: 8px;
             font-size: 0.85em;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
+        }
+        .copy-btn {
+            background: #3b82f6;
+            color: white;
             display: flex;
             align-items: center;
             gap: 5px;
         }
-        .copy-btn:hover {
-            background: #2563eb;
-        }
-        .copy-btn.copied {
-            background: #10b981;
-        }
+        .copy-btn:hover { background: #2563eb; }
+        .copy-btn.copied { background: #10b981; }
         .use-btn {
-            padding: 8px 14px;
             background: #8b5cf6;
             color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.85em;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
         }
-        .use-btn:hover {
-            background: #7c3aed;
-        }
+        .use-btn:hover { background: #7c3aed; }
         .toast {
             position: fixed;
             bottom: 30px;
@@ -339,7 +319,7 @@
         }
         footer a { color: white; }
 
-        /* ========== PASSWORD STATISTICS DASHBOARD ========== */
+        /* Statistics Section */
         #stats-section {
             margin-top: 30px;
             padding-top: 20px;
@@ -377,10 +357,7 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .stat-icon {
-            font-size: 1.5em;
-            margin-bottom: 8px;
-        }
+        .stat-icon { font-size: 1.5em; margin-bottom: 8px; }
         .stat-value {
             font-size: 1.6em;
             font-weight: 700;
@@ -417,9 +394,7 @@
             margin-bottom: 10px;
             gap: 10px;
         }
-        .strength-bar:last-child {
-            margin-bottom: 0;
-        }
+        .strength-bar:last-child { margin-bottom: 0; }
         .strength-label {
             width: 60px;
             font-size: 0.8em;
@@ -448,10 +423,7 @@
             font-weight: 600;
             color: #374151;
         }
-        .avg-length-display {
-            text-align: center;
-            padding: 20px;
-        }
+        .avg-length-display { text-align: center; padding: 20px; }
         .avg-length-value {
             font-size: 2.5em;
             font-weight: 700;
@@ -476,245 +448,172 @@
             background: #fee2e2;
             color: #dc2626;
         }
+
+        /* Password History */
+        #password-history-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+        }
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .history-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #374151;
+        }
+        .history-count {
+            font-size: 0.85em;
+            color: #6b7280;
+        }
+        .history-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .history-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+        }
+        .history-item:hover {
+            background: #f3f4f6;
+            transform: translateX(4px);
+        }
+        .history-password {
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #374151;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-right: 10px;
+        }
+        .history-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8em;
+        }
+        .history-strength {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        .history-strength.weak { background: #fee2e2; color: #dc2626; }
+        .history-strength.fair { background: #fef3c7; color: #d97706; }
+        .history-strength.good { background: #dbeafe; color: #2563eb; }
+        .history-strength.strong { background: #d1fae5; color: #059669; }
+        .history-date { color: #9ca3af; }
+        .history-actions { display: flex; gap: 5px; }
+        .history-btn {
+            background: #e5e7eb;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.2s;
+        }
+        .history-btn:hover { background: #d1d5db; }
+        .history-btn.clear {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        .history-btn.clear:hover { background: #fecaca; }
+        .history-empty {
+            text-align: center;
+            padding: 30px;
+            color: #9ca3af;
+        }
+        .history-empty-icon { font-size: 2em; margin-bottom: 10px; }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+        }
+        body.dark-mode .main-card { background: #1f2937; }
+        body.dark-mode .card-title { color: #f3f4f6; }
+        body.dark-mode input[type="password"],
+        body.dark-mode input[type="text"] {
+            background: #374151;
+            border-color: #4b5563;
+            color: #f3f4f6;
+        }
+        body.dark-mode .criteria li { border-bottom-color: #374151; }
+        body.dark-mode .time-to-crack { background: #374151; }
+        body.dark-mode .time-to-crack h3 { color: #9ca3af; }
+        body.dark-mode .time-to-crack .crack-time { color: #f3f4f6; }
+        body.dark-mode .option-item { background: #374151; }
+        body.dark-mode .option-item:hover { background: #4b5563; }
+        body.dark-mode .option-item label { color: #e5e7eb; }
+        body.dark-mode .length-slider-container { background: #374151; }
+        body.dark-mode .length-label { color: #e5e7eb; }
+        body.dark-mode .history-item { background: #374151; }
+        body.dark-mode .history-item:hover { background: #4b5563; }
+        body.dark-mode .history-password { color: #e5e7eb; }
         body.dark-mode .stat-card {
             background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
             border-color: #4b5563;
         }
-        body.dark-mode .stat-value {
-            color: #f3f4f6;
-        }
+        body.dark-mode .stat-value { color: #f3f4f6; }
         body.dark-mode .chart-container {
             background: #374151;
             border-color: #4b5563;
         }
-        body.dark-mode .strength-bar-track {
-            background: #4b5563;
-        }
+        body.dark-mode .strength-bar-track { background: #4b5563; }
+        body.dark-mode .theme-toggle { background: #374151; }
+
+        /* Responsive */
         @media (max-width: 600px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .stats-charts {
-                grid-template-columns: 1fr;
-            }
-        }
-        @media (max-width: 600px) {
-            .options-grid {
-                grid-template-columns: 1fr;
-            }
-            .password-option {
-                flex-wrap: wrap;
-            }
-            .password-text {
-                width: 100%;
-                order: -1;
+            header h1 { font-size: 1.8em; }
+            .options-grid { grid-template-columns: 1fr; }
+            .password-option { flex-wrap: wrap; }
+            .password-text { width: 100%; order: -1; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .stats-charts { grid-template-columns: 1fr; }
+            .theme-toggle {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+                top: 10px;
+                right: 10px;
             }
         }
-
-/* ========== PASSWORD HISTORY FEATURE ========== */
-#password-history-section {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 2px solid #e5e7eb;
-}
-.history-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-.history-title {
-    font-size: 1.1em;
-    font-weight: 600;
-    color: #374151;
-}
-.history-count {
-    font-size: 0.85em;
-    color: #6b7280;
-}
-.history-list {
-    max-height: 300px;
-    overflow-y: auto;
-}
-.history-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px;
-    background: #f9fafb;
-    border-radius: 8px;
-    margin-bottom: 8px;
-    transition: all 0.2s;
-}
-.history-item:hover {
-    background: #f3f4f6;
-    transform: translateX(4px);
-}
-.history-password {
-    font-family: monospace;
-    font-size: 0.9em;
-    color: #374151;
-    flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin-right: 10px;
-}
-.history-meta {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.8em;
-}
-.history-strength {
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-weight: 600;
-}
-.history-strength.weak { background: #fee2e2; color: #dc2626; }
-.history-strength.fair { background: #fef3c7; color: #d97706; }
-.history-strength.good { background: #dbeafe; color: #2563eb; }
-.history-strength.strong { background: #d1fae5; color: #059669; }
-.history-date {
-    color: #9ca3af;
-}
-.history-actions {
-    display: flex;
-    gap: 5px;
-}
-.history-btn {
-    background: #e5e7eb;
-    border: none;
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.85em;
-    transition: all 0.2s;
-}
-.history-btn:hover {
-    background: #d1d5db;
-}
-.history-btn.clear {
-    background: #fee2e2;
-    color: #dc2626;
-}
-.history-btn.clear:hover {
-    background: #fecaca;
-}
-.history-empty {
-    text-align: center;
-    padding: 30px;
-    color: #9ca3af;
-}
-.history-empty-icon {
-    font-size: 2em;
-    margin-bottom: 10px;
-}
-
-/* Toast Notifications */
-.toast-container {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-}
-.toast {
-    background: #1f2937;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    animation: slideUp 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-@keyframes slideUp {
-    from { opacity: 0; transform: translate(-50%, 20px); }
-    to { opacity: 1; transform: translate(-50%, 0); }
-}
-
-/* Enhanced Dark Mode */
-body.dark-mode {
-    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-}
-body.dark-mode .main-card {
-    background: #1f2937;
-}
-body.dark-mode .card-title {
-    color: #f3f4f6;
-}
-body.dark-mode input[type="password"],
-body.dark-mode input[type="text"] {
-    background: #374151;
-    border-color: #4b5563;
-    color: #f3f4f6;
-}
-body.dark-mode .criteria li {
-    border-bottom-color: #374151;
-}
-body.dark-mode .time-to-crack {
-    background: #374151;
-}
-body.dark-mode .time-to-crack h3 {
-    color: #9ca3af;
-}
-body.dark-mode .time-to-crack .crack-time {
-    color: #f3f4f6;
-}
-body.dark-mode .option-item {
-    background: #374151;
-}
-body.dark-mode .option-item:hover {
-    background: #4b5563;
-}
-body.dark-mode .option-item label {
-    color: #e5e7eb;
-}
-body.dark-mode .length-slider-container {
-    background: #374151;
-}
-body.dark-mode .length-label {
-    color: #e5e7eb;
-}
-body.dark-mode .history-item {
-    background: #374151;
-}
-body.dark-mode .history-item:hover {
-    background: #4b5563;
-}
-body.dark-mode .history-password {
-    color: #e5e7eb;
-}
-
-/* Theme Toggle Button */
-.theme-toggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: white;
-    border: none;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 24px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    transition: all 0.3s;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.theme-toggle:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-}
-body.dark-mode .theme-toggle {
-    background: #374151;
-}
-</style>
+    </style>
 </head>
 <body>
     <div class="container">
@@ -805,6 +704,94 @@ body.dark-mode .theme-toggle {
 
                 <div id="generatedPasswords" class="generated-passwords"></div>
             </div>
+
+            <!-- Password Statistics Dashboard -->
+            <div id="stats-section">
+                <div class="stats-header">
+                    <span class="stats-title">📊 Password Statistics</span>
+                    <button class="stats-reset-btn" onclick="resetStats()" title="Reset all statistics">🗑️ Reset</button>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">🔢</div>
+                        <div class="stat-value" id="total-checked">0</div>
+                        <div class="stat-label">Total Checked</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📏</div>
+                        <div class="stat-value" id="avg-length-stat">0</div>
+                        <div class="stat-label">Avg Length</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🔒</div>
+                        <div class="stat-value" id="strong-count">0</div>
+                        <div class="stat-label">Strong</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-value" id="security-score">0%</div>
+                        <div class="stat-label">Security Score</div>
+                    </div>
+                </div>
+                <div class="stats-charts">
+                    <div class="chart-container">
+                        <div class="chart-title">Strength Distribution</div>
+                        <div class="strength-bar">
+                            <span class="strength-label">Weak</span>
+                            <div class="strength-bar-track">
+                                <div id="bar-weak" class="strength-bar-fill weak" style="width: 0%"></div>
+                            </div>
+                            <span id="count-weak" class="strength-count">0</span>
+                        </div>
+                        <div class="strength-bar">
+                            <span class="strength-label">Fair</span>
+                            <div class="strength-bar-track">
+                                <div id="bar-fair" class="strength-bar-fill fair" style="width: 0%"></div>
+                            </div>
+                            <span id="count-fair" class="strength-count">0</span>
+                        </div>
+                        <div class="strength-bar">
+                            <span class="strength-label">Good</span>
+                            <div class="strength-bar-track">
+                                <div id="bar-good" class="strength-bar-fill good" style="width: 0%"></div>
+                            </div>
+                            <span id="count-good" class="strength-count">0</span>
+                        </div>
+                        <div class="strength-bar">
+                            <span class="strength-label">Strong</span>
+                            <div class="strength-bar-track">
+                                <div id="bar-strong" class="strength-bar-fill strong" style="width: 0%"></div>
+                            </div>
+                            <span id="count-strong" class="strength-count">0</span>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <div class="chart-title">Average Password Length</div>
+                        <div class="avg-length-display">
+                            <div class="avg-length-value" id="avg-length-big">0</div>
+                            <div class="avg-length-label">characters</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password History Section -->
+            <div id="password-history-section">
+                <div class="history-header">
+                    <span class="history-title">📚 Password History</span>
+                    <span id="history-count" class="history-count">0/10</span>
+                </div>
+                <div id="password-history-list" class="history-list">
+                    <div class="history-empty">
+                        <div class="history-empty-icon">📝</div>
+                        <p>No passwords generated yet</p>
+                        <p style="font-size: 0.85em; margin-top: 5px;">Generated passwords will appear here</p>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; text-align: right;">
+                    <button class="history-btn clear" onclick="clearHistory()">Clear History</button>
+                </div>
+            </div>
         </div>
 
         <footer>
@@ -813,840 +800,11 @@ body.dark-mode .theme-toggle {
     </div>
 
     <!-- Theme Toggle Button -->
-    <button id="themeToggle" class="theme-toggle" title="Toggle Dark/Light Theme (Ctrl+T)">
+    <button id="themeToggle" class="theme-toggle" title="Toggle Dark/Light Theme (Ctrl+D)">
         <span id="themeIcon">🌙</span>
     </button>
 
-    <div id="toast" class="toast">Copied to clipboard!</div>
-
-    <script>
-        function toggleVisibility() {
-            const input = document.getElementById('passwordInput');
-            input.type = input.type === 'password' ? 'text' : 'password';
-        }
-
-        function checkStrength() {
-            const password = document.getElementById('passwordInput').value;
-            const fill = document.getElementById('strengthFill');
-            const text = document.getElementById('strengthText');
-
-            const hasLength = password.length >= 8;
-            const hasUpper = /[A-Z]/.test(password);
-            const hasLower = /[a-z]/.test(password);
-            const hasNumber = /[0-9]/.test(password);
-            const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>?]/.test(password);
-
-            updateCriterion('lengthCheck', hasLength);
-            updateCriterion('upperCheck', hasUpper);
-            updateCriterion('lowerCheck', hasLower);
-            updateCriterion('numberCheck', hasNumber);
-            updateCriterion('specialCheck', hasSpecial);
-
-            let score = 0;
-            if (hasLength) score++;
-            if (hasUpper) score++;
-            if (hasLower) score++;
-            if (hasNumber) score++;
-            if (hasSpecial) score++;
-            if (password.length >= 12) score++;
-            if (password.length >= 16) score++;
-
-            fill.className = 'strength-fill';
-            let strengthLevel = '';
-            if (password.length === 0) {
-                text.textContent = 'Enter a password';
-                text.style.color = '#9ca3af';
-            } else if (score <= 2) {
-                fill.classList.add('strength-weak');
-                text.textContent = '🔴 Weak';
-                text.style.color = '#ef4444';
-                strengthLevel = 'weak';
-            } else if (score <= 4) {
-                fill.classList.add('strength-fair');
-                text.textContent = '🟡 Fair';
-                text.style.color = '#f59e0b';
-                strengthLevel = 'fair';
-            } else if (score <= 6) {
-                fill.classList.add('strength-good');
-                text.textContent = '🔵 Good';
-                text.style.color = '#3b82f6';
-                strengthLevel = 'good';
-            } else {
-                fill.classList.add('strength-strong');
-                text.textContent = '🟢 Strong';
-                text.style.color = '#10b981';
-                strengthLevel = 'strong';
-            }
-
-            calculateCrackTime(password);
-
-            // Update stats when password is checked
-            if (password.length > 0) {
-                updatePasswordStats(password, strengthLevel);
-            }
-        }
-
-        function updateCriterion(id, passed) {
-            const el = document.getElementById(id);
-            if (passed) {
-                el.className = 'check-icon check-pass';
-                el.textContent = '✓';
-            } else {
-                el.className = 'check-icon check-pending';
-                el.textContent = '○';
-            }
-        }
-
-        function calculateCrackTime(password) {
-            const crackTimeEl = document.getElementById('crackTime');
-
-            if (password.length === 0) {
-                crackTimeEl.textContent = '-';
-                return;
-            }
-
-            let charset = 0;
-            if (/[a-z]/.test(password)) charset += 26;
-            if (/[A-Z]/.test(password)) charset += 26;
-            if (/[0-9]/.test(password)) charset += 10;
-            if (/[^a-zA-Z0-9]/.test(password)) charset += 32;
-
-            const combinations = Math.pow(charset, password.length);
-            const guessesPerSecond = 10000000000;
-            const seconds = combinations / guessesPerSecond;
-
-            let timeText;
-            if (seconds < 1) {
-                timeText = 'Instantly';
-            } else if (seconds < 60) {
-                timeText = Math.round(seconds) + ' seconds';
-            } else if (seconds < 3600) {
-                timeText = Math.round(seconds / 60) + ' minutes';
-            } else if (seconds < 86400) {
-                timeText = Math.round(seconds / 3600) + ' hours';
-            } else if (seconds < 31536000) {
-                timeText = Math.round(seconds / 86400) + ' days';
-            } else if (seconds < 3153600000) {
-                timeText = Math.round(seconds / 31536000) + ' years';
-            } else {
-                timeText = 'Centuries';
-            }
-
-            crackTimeEl.textContent = timeText;
-        }
-
-        function updateLengthDisplay() {
-            const slider = document.getElementById('lengthSlider');
-            const display = document.getElementById('lengthValue');
-            display.textContent = slider.value;
-        }
-
-        function generatePasswords() {
-            const length = parseInt(document.getElementById('lengthSlider').value);
-            const includeUpper = document.getElementById('includeUppercase').checked;
-            const includeLower = document.getElementById('includeLowercase').checked;
-            const includeNumbers = document.getElementById('includeNumbers').checked;
-            const includeSymbols = document.getElementById('includeSymbols').checked;
-
-            // Validate at least one option is selected
-            if (!includeUpper && !includeLower && !includeNumbers && !includeSymbols) {
-                showToast('Please select at least one character type');
-                return;
-            }
-
-            // Generate 3 password options
-            const passwords = [];
-            for (let i = 0; i < 3; i++) {
-                passwords.push(generateSinglePassword(length, includeUpper, includeLower, includeNumbers, includeSymbols));
-            }
-
-            // Display generated passwords
-            displayGeneratedPasswords(passwords);
-        }
-
-        function generateSinglePassword(length, includeUpper, includeLower, includeNumbers, includeSymbols) {
-            let charset = '';
-            let requiredChars = [];
-
-            if (includeLower) {
-                charset += 'abcdefghijklmnopqrstuvwxyz';
-                requiredChars.push('abcdefghijklmnopqrstuvwxyz'[Math.floor(Math.random() * 26)]);
-            }
-            if (includeUpper) {
-                charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                requiredChars.push('ABCDEFGHIJKLMNOPQRSTUVWXYZ'[Math.floor(Math.random() * 26)]);
-            }
-            if (includeNumbers) {
-                charset += '0123456789';
-                requiredChars.push('0123456789'[Math.floor(Math.random() * 10)]);
-            }
-            if (includeSymbols) {
-                const symbols = '!@#$%^&*';
-                charset += symbols;
-                requiredChars.push(symbols[Math.floor(Math.random() * symbols.length)]);
-            }
-
-            let password = requiredChars.join('');
-
-            for (let i = requiredChars.length; i < length; i++) {
-                password += charset[Math.floor(Math.random() * charset.length)];
-            }
-
-            // Shuffle the password
-            password = password.split('').sort(() => Math.random() - 0.5).join('');
-
-            return password;
-        }
-
-        function getPasswordStrength(password) {
-            let score = 0;
-            if (password.length >= 8) score++;
-            if (password.length >= 12) score++;
-            if (password.length >= 16) score++;
-            if (/[A-Z]/.test(password)) score++;
-            if (/[a-z]/.test(password)) score++;
-            if (/[0-9]/.test(password)) score++;
-            if (/[^a-zA-Z0-9]/.test(password)) score++;
-
-            if (score <= 2) return { level: 'weak', label: 'Weak' };
-            if (score <= 4) return { level: 'fair', label: 'Fair' };
-            if (score <= 6) return { level: 'good', label: 'Good' };
-            return { level: 'strong', label: 'Strong' };
-        }
-
-        function displayGeneratedPasswords(passwords) {
-            const container = document.getElementById('generatedPasswords');
-            container.innerHTML = '';
-
-            passwords.forEach((password, index) => {
-                const strength = getPasswordStrength(password);
-
-                const optionDiv = document.createElement('div');
-                optionDiv.className = 'password-option';
-                optionDiv.innerHTML = `
-                    <div class="password-text">${escapeHtml(password)}</div>
-                    <span class="password-strength-badge badge-${strength.level}">${strength.label}</span>
-                    <button class="copy-btn" onclick="copyToClipboard('${escapeHtml(password)}', this)">
-                        📋 Copy
-                    </button>
-                    <button class="use-btn" onclick="usePassword('${escapeHtml(password)}')">
-                        Use
-                    </button>
-                `;
-                container.appendChild(optionDiv);
-            });
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function copyToClipboard(text, btn) {
-            navigator.clipboard.writeText(text).then(() => {
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '✓ Copied!';
-                btn.classList.add('copied');
-                showToast('Copied to clipboard!');
-
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.classList.remove('copied');
-                }, 2000);
-            }).catch(() => {
-                // Fallback for older browsers
-                const textArea = document.createElement('textarea');
-                textArea.value = text;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                showToast('Copied to clipboard!');
-            });
-        }
-
-        function usePassword(password) {
-            document.getElementById('passwordInput').value = password;
-            document.getElementById('passwordInput').type = 'text';
-            checkStrength();
-            showToast('Password applied to checker!');
-        }
-
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2500);
-        }
-
-        // ========== PASSWORD STATISTICS FEATURE ==========
-        const STATS_KEY = 'password-stats';
-
-        function getStats() {
-            const saved = localStorage.getItem(STATS_KEY);
-            if (saved) {
-                return JSON.parse(saved);
-            }
-            return {
-                totalChecked: 0,
-                strengthCounts: { weak: 0, fair: 0, good: 0, strong: 0 },
-                totalLength: 0,
-                lastReset: new Date().toISOString()
-            };
-        }
-
-        function saveStats(stats) {
-            localStorage.setItem(STATS_KEY, JSON.stringify(stats));
-        }
-
-        function updatePasswordStats(password, strength) {
-            const stats = getStats();
-            
-            // Increment total
-            stats.totalChecked++;
-            
-            // Update strength counts
-            if (strength && stats.strengthCounts.hasOwnProperty(strength)) {
-                stats.strengthCounts[strength]++;
-            }
-            
-            // Update total length for average calculation
-            stats.totalLength += password.length;
-            
-            saveStats(stats);
-            renderStats();
-        }
-
-        function calculateAverageLength(stats) {
-            if (stats.totalChecked === 0) return 0;
-            return (stats.totalLength / stats.totalChecked).toFixed(1);
-        }
-
-        function calculateSecurityScore(stats) {
-            const total = stats.totalChecked;
-            if (total === 0) return 0;
-            
-            const goodOnes = stats.strengthCounts.good + stats.strengthCounts.strong;
-            const score = Math.round((goodOnes / total) * 100);
-            return score;
-        }
-
-        function getPercentage(count, total) {
-            if (total === 0) return 0;
-            return Math.round((count / total) * 100);
-        }
-
-        function renderStats() {
-            const stats = getStats();
-            const total = stats.totalChecked;
-            
-            // Update stat cards
-            document.getElementById('total-checked').textContent = total.toLocaleString();
-            document.getElementById('avg-length-stat').textContent = calculateAverageLength(stats);
-            document.getElementById('strong-count').textContent = stats.strengthCounts.strong;
-            document.getElementById('security-score').textContent = calculateSecurityScore(stats) + '%';
-            document.getElementById('avg-length-big').textContent = calculateAverageLength(stats);
-            
-            // Update strength bars
-            const strengths = ['weak', 'fair', 'good', 'strong'];
-            strengths.forEach(strength => {
-                const count = stats.strengthCounts[strength];
-                const percentage = getPercentage(count, total);
-                
-                const bar = document.getElementById('bar-' + strength);
-                const countEl = document.getElementById('count-' + strength);
-                
-                if (bar) bar.style.width = percentage + '%';
-                if (countEl) countEl.textContent = count;
-            });
-        }
-
-        function resetStats() {
-            if (confirm('Reset all password statistics? This cannot be undone.')) {
-                const newStats = {
-                    totalChecked: 0,
-                    strengthCounts: { weak: 0, fair: 0, good: 0, strong: 0 },
-                    totalLength: 0,
-                    lastReset: new Date().toISOString()
-                };
-                saveStats(newStats);
-                renderStats();
-                showToast('📊 Statistics reset!');
-            }
-        }
-
-        // Initialize stats on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            renderStats();
-            initThemeToggle();
-        });
-
-        // ========== THEME TOGGLE FEATURE ==========
-        const THEME_KEY = 'password-checker-theme';
-
-        function initThemeToggle() {
-            const savedTheme = localStorage.getItem(THEME_KEY);
-            const themeIcon = document.getElementById('themeIcon');
-            
-            // Apply saved theme
-            if (savedTheme === 'dark') {
-                document.body.classList.add('dark-mode');
-                if (themeIcon) themeIcon.textContent = '☀️';
-            } else if (savedTheme === 'light') {
-                document.body.classList.remove('dark-mode');
-                if (themeIcon) themeIcon.textContent = '🌙';
-            } else {
-                // Default to system preference
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                if (prefersDark) {
-                    document.body.classList.add('dark-mode');
-                    if (themeIcon) themeIcon.textContent = '☀️';
-                }
-            }
-
-            // Setup toggle button
-            const toggleBtn = document.getElementById('themeToggle');
-            if (toggleBtn) {
-                toggleBtn.addEventListener('click', toggleTheme);
-            }
-
-            // Keyboard shortcut
-            document.addEventListener('keydown', (e) => {
-                if (e.ctrlKey && e.key === 't') {
-                    e.preventDefault();
-                    toggleTheme();
-                }
-            });
-        }
-
-        function toggleTheme() {
-            const isDark = document.body.classList.toggle('dark-mode');
-            const themeIcon = document.getElementById('themeIcon');
-            
-            if (isDark) {
-                localStorage.setItem(THEME_KEY, 'dark');
-                if (themeIcon) themeIcon.textContent = '☀️';
-            } else {
-                localStorage.setItem(THEME_KEY, 'light');
-                if (themeIcon) themeIcon.textContent = '🌙';
-            }
-            
-            showToast(isDark ? '🌙 Dark mode enabled' : '☀️ Light mode enabled');
-        }
-    </script>
-
-<script>
-// Password History Feature
-const PASSWORD_HISTORY_KEY = 'password-history';
-const MAX_HISTORY = 10;
-
-function getPasswordHistory() {
-    const saved = localStorage.getItem(PASSWORD_HISTORY_KEY);
-    return saved ? JSON.parse(saved) : [];
-}
-
-function savePasswordToHistory(password, strength) {
-    const history = getPasswordHistory();
-    // Don't save empty passwords
-    if (!password || password.length === 0) return;
-    // Don't save duplicates of the most recent entry
-    if (history.length > 0 && history[0].password === password) return;
-
-    const entry = {
-        password: password,
-        strength: strength,
-        timestamp: new Date().toISOString(),
-        date: new Date().toLocaleDateString()
-    };
-
-    history.unshift(entry);
-    if (history.length > MAX_HISTORY) {
-        history.pop();
-    }
-
-    localStorage.setItem(PASSWORD_HISTORY_KEY, JSON.stringify(history));
-    renderPasswordHistory();
-}
-
-function deleteHistoryItem(index) {
-    const history = getPasswordHistory();
-    history.splice(index, 1);
-    localStorage.setItem(PASSWORD_HISTORY_KEY, JSON.stringify(history));
-    renderPasswordHistory();
-    showToast('🗑️ Removed from history');
-}
-
-function clearHistory() {
-    if (confirm('Clear all password history? This cannot be undone.')) {
-        localStorage.removeItem(PASSWORD_HISTORY_KEY);
-        renderPasswordHistory();
-        showToast('🗑️ History cleared');
-    }
-}
-
-function usePassword(password) {
-    const input = document.getElementById('password-input');
-    if (input) {
-        input.value = password;
-        input.type = 'text';
-        updateStrength(password);
-        showToast('📋 Password loaded');
-    }
-}
-
-function renderPasswordHistory() {
-    const history = getPasswordHistory();
-    const container = document.getElementById('password-history-list');
-    if (!container) return;
-
-    if (history.length === 0) {
-        container.innerHTML = `
-            <div class="history-empty">
-                <div class="history-empty-icon">📝</div>
-                <p>No passwords generated yet</p>
-                <p style="font-size: 0.85em; margin-top: 5px;">Generated passwords will appear here</p>
-            </div>
-        `;
-    } else {
-        container.innerHTML = history.map((item, index) => `
-            <div class="history-item">
-                <div class="history-password">${escapeHtml(maskPassword(item.password))}</div>
-                <div class="history-meta">
-                    <span class="history-strength ${item.strength}">${item.strength}</span>
-                    <span class="history-date">${item.date}</span>
-                    <div class="history-actions">
-                        <button class="history-btn" onclick="usePassword('${escapeHtml(item.password)}')" title="Use this password">📋</button>
-                        <button class="history-btn" onclick="deleteHistoryItem(${index})" title="Delete">🗑️</button>
-                    </div>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    // Update count
-    const countEl = document.getElementById('history-count');
-    if (countEl) {
-        countEl.textContent = `${history.length}/${MAX_HISTORY}`;
-    }
-}
-
-function maskPassword(password) {
-    if (password.length <= 4) return password;
-    return password.substring(0, 4) + '•'.repeat(Math.min(password.length - 4, 8));
-}
-
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-function showToast(message) {
-    let container = document.getElementById('toast-container');
-    if (!container) {
-        container = document.createElement('div');
-        container.id = 'toast-container';
-        container.className = 'toast-container';
-        document.body.appendChild(container);
-    }
-
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.textContent = message;
-    container.appendChild(toast);
-
-    setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translate(-50%, 20px)';
-        setTimeout(() => toast.remove(), 300);
-    }, 3000);
-}
-
-// Theme Toggle
-const themeToggle = document.createElement('button');
-themeToggle.className = 'theme-toggle';
-themeToggle.innerHTML = '🌙';
-themeToggle.title = 'Toggle dark mode (Ctrl/Cmd + D)';
-themeToggle.onclick = () => {
-    document.body.classList.toggle('dark-mode');
-    const isDark = document.body.classList.contains('dark-mode');
-    themeToggle.innerHTML = isDark ? '☀️' : '🌙';
-    localStorage.setItem('dark-theme', isDark);
-};
-document.body.appendChild(themeToggle);
-
-// Load saved theme
-if (localStorage.getItem('dark-theme') === 'true') {
-    document.body.classList.add('dark-mode');
-    themeToggle.innerHTML = '☀️';
-}
-
-// Enhanced keyboard shortcuts
-document.addEventListener('keydown', (e) => {
-    // Ctrl/Cmd + D = Toggle dark mode
-    if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
-        e.preventDefault();
-        themeToggle.click();
-    }
-    // Ctrl/Cmd + G = Generate password
-    if ((e.ctrlKey || e.metaKey) && e.key === 'g') {
-        e.preventDefault();
-        const genBtn = document.getElementById('generate-btn');
-        if (genBtn) genBtn.click();
-    }
-    // Ctrl/Cmd + C (when not in input) = Copy current password
-    if ((e.ctrlKey || e.metaKey) && e.key === 'c' && 
-        !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
-        e.preventDefault();
-        const input = document.getElementById('password-input');
-        if (input && input.value) {
-            navigator.clipboard.writeText(input.value);
-            showToast('📋 Password copied!');
-        }
-    }
-    // Escape = Clear input
-    if (e.key === 'Escape') {
-        const input = document.getElementById('password-input');
-        if (input && document.activeElement === input) {
-            input.value = '';
-            updateStrength('');
-            input.blur();
-        }
-    }
-});
-
-// Override generate button click to save to history
-const originalGenerateBtn = document.getElementById('generate-btn');
-if (originalGenerateBtn) {
-    const originalOnClick = originalGenerateBtn.onclick;
-    originalGenerateBtn.onclick = function(e) {
-        // Get the current strength before generating
-        const strengthFill = document.querySelector('.strength-fill');
-        let currentStrength = 'weak';
-        if (strengthFill) {
-            if (strengthFill.classList.contains('strength-strong')) currentStrength = 'strong';
-            else if (strengthFill.classList.contains('strength-good')) currentStrength = 'good';
-            else if (strengthFill.classList.contains('strength-fair')) currentStrength = 'fair';
-        }
-
-        // Get current password before generating new one
-        const input = document.getElementById('password-input');
-        const oldPassword = input ? input.value : '';
-
-        // Call original handler
-        if (originalOnClick) originalOnClick.call(this, e);
-
-        // Save old password to history if it exists
-        if (oldPassword) {
-            savePasswordToHistory(oldPassword, currentStrength);
-        }
-
-        // Show notification
-        showToast('✨ New password generated!');
-    };
-}
-
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    renderPasswordHistory();
-});
-
-// Save generated passwords to history
-const generateBtn = document.getElementById('generate-btn');
-if (generateBtn) {
-    generateBtn.addEventListener('click', function() {
-        setTimeout(() => {
-            const input = document.getElementById('password-input');
-            const strengthFill = document.querySelector('.strength-fill');
-            if (input && input.value) {
-                let strength = 'weak';
-                if (strengthFill) {
-                    if (strengthFill.classList.contains('strength-strong')) strength = 'strong';
-                    else if (strengthFill.classList.contains('strength-good')) strength = 'good';
-                    else if (strengthFill.classList.contains('strength-fair')) strength = 'fair';
-                }
-                savePasswordToHistory(input.value, strength);
-            }
-        }, 100);
-    });
-}
-</script>
-
-        <!-- Password Statistics Dashboard -->
-        <div id="stats-section">
-            <div class="stats-header">
-                <span class="stats-title">📊 Password Statistics</span>
-                <button class="stats-reset-btn" onclick="resetStats()" title="Reset all statistics">🗑️ Reset</button>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">🔢</div>
-                    <div class="stat-value" id="total-checked">0</div>
-                    <div class="stat-label">Total Checked</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📏</div>
-                    <div class="stat-value" id="avg-length-stat">0</div>
-                    <div class="stat-label">Avg Length</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🔒</div>
-                    <div class="stat-value" id="strong-count">0</div>
-                    <div class="stat-label">Strong</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">⭐</div>
-                    <div class="stat-value" id="security-score">0%</div>
-                    <div class="stat-label">Security Score</div>
-                </div>
-            </div>
-            <div class="stats-charts">
-                <div class="chart-container">
-                    <div class="chart-title">Strength Distribution</div>
-                    <div class="strength-bar">
-                        <span class="strength-label">Weak</span>
-                        <div class="strength-bar-track">
-                            <div id="bar-weak" class="strength-bar-fill weak" style="width: 0%"></div>
-                        </div>
-                        <span id="count-weak" class="strength-count">0</span>
-                    </div>
-                    <div class="strength-bar">
-                        <span class="strength-label">Fair</span>
-                        <div class="strength-bar-track">
-                            <div id="bar-fair" class="strength-bar-fill fair" style="width: 0%"></div>
-                        </div>
-                        <span id="count-fair" class="strength-count">0</span>
-                    </div>
-                    <div class="strength-bar">
-                        <span class="strength-label">Good</span>
-                        <div class="strength-bar-track">
-                            <div id="bar-good" class="strength-bar-fill good" style="width: 0%"></div>
-                        </div>
-                        <span id="count-good" class="strength-count">0</span>
-                    </div>
-                    <div class="strength-bar">
-                        <span class="strength-label">Strong</span>
-                        <div class="strength-bar-track">
-                            <div id="bar-strong" class="strength-bar-fill strong" style="width: 0%"></div>
-                        </div>
-                        <span id="count-strong" class="strength-count">0</span>
-                    </div>
-                </div>
-                <div class="chart-container">
-                    <div class="chart-title">Average Password Length</div>
-                    <div class="avg-length-display">
-                        <div class="avg-length-value" id="avg-length-big">0</div>
-                        <div class="avg-length-label">characters</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Password History Section -->
-        <div id="password-history-section">
-            <div class="history-header">
-                <span class="history-title">📚 Password History</span>
-                <span id="history-count" class="history-count">0/10</span>
-            </div>
-            <div id="password-history-list" class="history-list">
-                <div class="history-empty">
-                    <div class="history-empty-icon">📝</div>
-                    <p>No passwords generated yet</p>
-                    <p style="font-size: 0.85em; margin-top: 5px;">Generated passwords will appear here</p>
-                </div>
-            </div>
-            <div style="margin-top: 15px; text-align: right;">
-                <button class="history-btn clear" onclick="clearHistory()">Clear History</button>
-            </div>
-        </div>
+    <!-- Main Application Script -->
+    <script src="app.js"></script>
 </body>
-</html><script>
-// Share functionality
-const shareBtn = document.createElement('button');
-shareBtn.textContent = '🔗 Share';
-shareBtn.style.cssText = 'position:fixed;bottom:20px;right:20px;padding:10px 20px;background:#6f42c1;color:white;border:none;border-radius:20px;cursor:pointer;z-index:999;';
-shareBtn.onclick = () => {
-    if (navigator.share) {
-        navigator.share({ title: document.title, url: location.href });
-    } else {
-        navigator.clipboard.writeText(location.href);
-        shareBtn.textContent = '✅ Copied!';
-        setTimeout(() => shareBtn.textContent = '🔗 Share', 2000);
-    }
-};
-document.body.appendChild(shareBtn);
-
-// Add keyboard shortcuts button
-const keyboardBtn = document.createElement('button');
-keyboardBtn.textContent = '?';
-keyboardBtn.title = 'Keyboard shortcuts (press ?)';
-keyboardBtn.style.cssText = 'position:fixed;bottom:20px;right:140px;padding:10px 16px;background:#3b82f6;color:white;border:none;border-radius:20px;cursor:pointer;z-index:999;font-weight:600;';
-keyboardBtn.onclick = () => {
-    if (typeof toggleHelpModal === 'function') {
-        toggleHelpModal();
-    }
-};
-document.body.appendChild(keyboardBtn);
-</script>
-
-<script src="keyboard-shortcuts.js"></script>
-<script>
-// Simple tutorial
-const tutorialSteps = [
-    { selector: 'h1', text: 'Welcome! This is the main title.' },
-    { selector: 'button', text: 'Click here to perform actions.' }
-];
-let currentStep = 0;
-function showTutorial() {
-    if (currentStep < tutorialSteps.length) {
-        const step = tutorialSteps[currentStep];
-        const el = document.querySelector(step.selector);
-        if (el) {
-            const tooltip = document.createElement('div');
-            tooltip.textContent = step.text;
-            tooltip.style.cssText = 'position:absolute;background:#6f42c1;color:white;padding:10px;border-radius:5px;z-index:1000;';
-            el.style.position = 'relative';
-            el.appendChild(tooltip);
-            setTimeout(() => tooltip.remove(), 3000);
-        }
-        currentStep++;
-    }
-}
-// Show tutorial on first visit
-if (!localStorage.getItem('tutorial-shown')) {
-    setTimeout(showTutorial, 1000);
-    localStorage.setItem('tutorial-shown', 'true');
-}
-</script>
-<script>
-// Templates gallery
-const templates = [
-    { name: 'Default', apply: () => {} },
-    { name: 'Minimal', apply: () => document.body.style.fontFamily = 'system-ui, sans-serif' }
-];
-const templateSelect = document.createElement('select');
-templates.forEach(t => {
-    const opt = document.createElement('option');
-    opt.value = t.name;
-    opt.textContent = t.name;
-    templateSelect.appendChild(opt);
-});
-templateSelect.onchange = (e) => {
-    const template = templates.find(t => t.name === e.target.value);
-    if (template) template.apply();
-};
-document.querySelector('.container')?.appendChild(templateSelect);
-</script>
-<script>
-// API integration ready
-const API = {
-    async fetch(url, options = {}) {
-        const response = await fetch(url, options);
-        return response.json();
-    }
-};
-</script>
+</html>

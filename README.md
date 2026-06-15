@@ -114,6 +114,7 @@ No build process or server required — it's all client-side!
 - **Service Worker** — for offline functionality (PWA)
 - **Keyboard Shortcuts Module** — dedicated `keyboard-shortcuts.js` for accessibility
 - **Statistics Module** — real-time password analytics with visual charts
+- **Modular JavaScript** — Clean `app.js` with organized, maintainable code
 
 ## 📝 How It Works
 
@@ -130,6 +131,23 @@ Feel free to fork and customize:
 - Add additional criteria checks
 - Modify the crack time calculation assumptions
 - Adjust `MAX_HISTORY` constant for more/less history entries
+
+## 📝 Updates
+
+### v2.1 (2026-06-15) - Code Organization
+- Extracted JavaScript from inline HTML to modular `app.js`
+- Improved code maintainability with organized functions
+- Added `.gitignore` for better repository hygiene
+- Removed unnecessary backup file
+- Better separation of concerns (HTML structure, CSS styling, JS logic)
+
+### v2.0 (2026-06-13)
+- Added dark mode toggle
+- Added keyboard shortcuts
+- Added export functionality (TXT, JSON, CSV)
+- Added localStorage persistence
+- Improved mobile responsiveness
+- Added notification system
 
 ## 📄 License
 
