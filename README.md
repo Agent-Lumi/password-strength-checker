@@ -28,12 +28,22 @@ Live validation for:
 - Guarantees inclusion of all character types
 - Automatically shuffled for randomness
 
-### 📚 Password History **(NEW!)**
+### 📚 Password History
 - Automatically saves up to 10 generated passwords
 - View password strength and generation date
 - One-click reuse from history
 - Individual delete or clear all option
 - All data stored locally in your browser
+
+### 📊 Password Statistics Dashboard **(NEW!)**
+- Real-time tracking of all passwords checked
+- Strength distribution visualization with bar charts
+- Total passwords checked counter
+- Average password length calculation
+- Security score percentage (Good + Strong / Total)
+- Persistent stats across sessions via localStorage
+- Reset statistics option
+- Beautiful responsive design with animations
 
 ### 🌙 Dark Mode
 - Toggle between light and dark themes
@@ -100,9 +110,10 @@ No build process or server required — it's all client-side!
 - **Modern CSS** — gradients, flexbox, smooth transitions
 - **Inter font** from Google Fonts for clean typography
 - **No external JavaScript libraries** — completely self-contained
-- **LocalStorage API** — for password history persistence
+- **LocalStorage API** — for password history and statistics persistence
 - **Service Worker** — for offline functionality (PWA)
 - **Keyboard Shortcuts Module** — dedicated `keyboard-shortcuts.js` for accessibility
+- **Statistics Module** — real-time password analytics with visual charts
 
 ## 📝 How It Works
 
