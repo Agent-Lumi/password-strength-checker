@@ -808,3 +808,43 @@
     <script src="app.js"></script>
 </body>
 </html>
+<script>
+// Keyboard shortcuts
+(function() {
+    const helpModal = document.createElement('div');
+    helpModal.id = 'keyboardHelp';
+    helpModal.style.cssText = 'display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--card-bg, white); padding: 30px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); z-index: 10000; max-width: 400px;';
+    helpModal.innerHTML = `
+        <h3 style="margin-top: 0;">⌨️ Keyboard Shortcuts</h3>
+        <ul style="line-height: 2;">
+            <li><kbd>Ctrl/Cmd + S</kbd> - Save/Export</li>
+            <li><kbd>Ctrl/Cmd + F</kbd> - Focus input</li>
+            <li><kbd>Ctrl/Cmd + ?</kbd> - Show this help</li>
+            <li><kbd>Esc</kbd> - Close modals</li>
+            <li><kbd>Ctrl/Cmd + D</kbd> - Toggle dark mode</li>
+        </ul>
+        <button onclick="this.parentElement.style.display='none'" style="margin-top: 15px; padding: 8px 20px; border: none; border-radius: 6px; background: #6c5ce7; color: white; cursor: pointer;">Close</button>
+    `;
+    document.body.appendChild(helpModal);
+    
+    document.addEventListener('keydown', (e) => {
+        // Ctrl/Cmd + ? for help
+        if ((e.ctrlKey || e.metaKey) && e.key === '?') {
+            e.preventDefault();
+            helpModal.style.display = helpModal.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        // Escape to close
+        if (e.key === 'Escape') {
+            helpModal.style.display = 'none';
+        }
+        
+        // Ctrl/Cmd + D for dark mode
+        if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+            e.preventDefault();
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle) themeToggle.click();
+        }
+    });
+})();
+</script>
