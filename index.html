@@ -879,3 +879,39 @@
     });
 })();
 </script>
+<script>
+// Export functionality
+(function() {
+    const exportBtn = document.createElement('button');
+    exportBtn.textContent = '⬇️ Export';
+    exportBtn.style.cssText = 'position: fixed; bottom: 20px; left: 20px; padding: 10px 15px; border: none; border-radius: 8px; background: #6c5ce7; color: white; cursor: pointer; font-size: 14px; z-index: 999; display: flex; align-items: center; gap: 5px;';
+    
+    exportBtn.addEventListener('click', () => {
+        const data = {
+            timestamp: new Date().toISOString(),
+            url: window.location.href,
+            content: document.body.innerText
+        };
+        
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = document.title.replace(/\s+/g, '_').toLowerCase() + '_export_' + Date.now() + '.json';
+        a.click();
+        URL.revokeObjectURL(url);
+    });
+    
+    document.body.appendChild(exportBtn);
+})();
+
+function exportToFile(content, filename, type = 'text/plain') {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+</script>
