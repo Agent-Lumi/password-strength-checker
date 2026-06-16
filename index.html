@@ -837,6 +837,70 @@
 
     <!-- Main Application Script -->
     <script src="app.js"></script>
+<!-- Share buttons -->
+<script>
+// Share functionality
+(function() {
+    const shareContainer = document.createElement('div');
+    shareContainer.className = 'share-buttons';
+    shareContainer.style.cssText = 'position: fixed; bottom: 80px; left: 20px; display: flex; gap: 10px; z-index: 998;';
+    
+    const shareData = {
+        title: document.title,
+        text: 'Check out this Password Strength Checker!',
+        url: window.location.href
+    };
+    
+    const buttons = [
+        { icon: '🔗', label: 'Copy Link', action: () => {
+            navigator.clipboard.writeText(shareData.url);
+            showToast('Link copied to clipboard!');
+        }},
+        { icon: '🐦', label: 'Twitter', action: () => {
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.text)}&url=${encodeURIComponent(shareData.url)}`, '_blank');
+        }},
+        { icon: '📧', label: 'Email', action: () => {
+            window.location.href = `mailto:?subject=${encodeURIComponent(shareData.title)}&body=${encodeURIComponent(shareData.text + '\n\n' + shareData.url)}`;
+        }},
+        { icon: '📱', label: 'WhatsApp', action: () => {
+            window.open(`https://wa.me/?text=${encodeURIComponent(shareData.text + ' ' + shareData.url)}`, '_blank');
+        }}
+    ];
+    
+    buttons.forEach(btn => {
+        const button = document.createElement('button');
+        button.textContent = btn.icon;
+        button.title = btn.label;
+        button.style.cssText = 'width: 44px; height: 44px; border-radius: 50%; border: none; cursor: pointer; font-size: 1.3rem; background: var(--card-bg, white); box-shadow: 0 2px 8px rgba(0,0,0,0.15); transition: transform 0.2s, box-shadow 0.2s;';
+        button.addEventListener('click', btn.action);
+        button.addEventListener('mouseenter', () => {
+            button.style.transform = 'scale(1.15)';
+            button.style.boxShadow = '0 4px 15px rgba(0,0,0,0.25)';
+        });
+        button.addEventListener('mouseleave', () => {
+            button.style.transform = 'scale(1)';
+            button.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+        });
+        shareContainer.appendChild(button);
+    });
+    
+    document.body.appendChild(shareContainer);
+    
+    // Add CSS for share buttons
+    const shareCSS = document.createElement('style');
+    shareCSS.textContent = `
+        [data-theme="dark"] .share-buttons button {
+            background: #2d3748 !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4) !important;
+        }
+        [data-theme="dark"] .share-buttons button:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5) !important;
+        }
+    `;
+    document.head.appendChild(shareCSS);
+})();
+</script>
+
 </body>
 </html>
 <script>
